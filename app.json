@@ -4,17 +4,12 @@
     "slug": "traject-ai-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "trajectaimobile",
     "userInterfaceStyle": "automatic",
     "description": "Hybrid GPS + AI Trajectory Prediction Mobile Application",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
-      "supportsTabletMode": true,
+      "supportsTablet": true,
       "bundleIdentifier": "com.trajectai.mobile",
       "buildNumber": "1",
       "infoPlist": {
@@ -31,7 +26,7 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#ffffff",
-        "foregroundImage": "./assets/adaptive-icon.png"
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
@@ -40,7 +35,9 @@
         "BODY_SENSORS",
         "INTERNET",
         "ACCESS_NETWORK_STATE",
-        "CHANGE_NETWORK_STATE"
+        "CHANGE_NETWORK_STATE",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
       ],
       "intentFilters": [
         {
@@ -69,7 +66,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#ffffff",
-          "image": "./assets/splash.png",
+          "image": ".assets/images/splash-icon.png",
           "imageWidth": 200
         }
       ]
@@ -80,6 +77,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "145869cb-abaa-4bd9-9c9f-5b80d6791129"
       }
     }
   }
