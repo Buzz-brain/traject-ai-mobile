@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from '../lib/store/themeContext';
 import DiagnosticsScreen from '../components/diagnostics/DiagnosticsScreen';
 

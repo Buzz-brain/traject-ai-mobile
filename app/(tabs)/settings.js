@@ -181,7 +181,7 @@ export default function SettingsScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScreenHeader title="Settings" />
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -310,6 +310,6 @@ export default function SettingsScreen() {
         {/* Bottom spacing */}
         <View style={{ height: 20 }} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

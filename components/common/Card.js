@@ -8,12 +8,21 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../lib/store/themeContext';
 
 /**
+ * @typedef {Object} CardProps
+ * @property {React.ReactNode} children
+ * @property {import('react-native').StyleProp<import('react-native').ViewStyle>} [style]
+ * @property {() => void} [onPress]
+ * @property {number} [activeOpacity]
+ */
+
+/**
  * Card - Generic card container
+ * @param {CardProps} props
  */
 export function Card({ 
   children, 
   style = {},
-  onPress = null,
+  onPress,
   activeOpacity = 0.7,
 }) {
   const { isDark } = useTheme();

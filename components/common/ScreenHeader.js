@@ -8,11 +8,19 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from '../../lib/store/themeContext';
 
 /**
+ * @typedef {Object} ScreenHeaderProps
+ * @property {string} title
+ * @property {string} [subtitle]
+ * @property {import('react-native').StyleProp<import('react-native').ViewStyle>} [style]
+ */
+
+/**
  * ScreenHeader - Header for screens
+ * @param {ScreenHeaderProps} props
  */
 export function ScreenHeader({ 
   title, 
-  subtitle = null,
+  subtitle,
   style = {},
 }) {
   const { isDark } = useTheme();

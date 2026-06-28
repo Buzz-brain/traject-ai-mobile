@@ -59,6 +59,8 @@ export function StatBox({
 
 /**
  * StatGrid - Display multiple statistics
+ * @param {Object} props
+ * @param {Array<{label: string, value: string, unit: string, color: string}>} props.stats - Array of statistics to display
  */
 export function StatGrid({ stats = [] }) {
   return (

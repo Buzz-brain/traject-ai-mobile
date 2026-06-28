@@ -1,15 +1,28 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, ThemeProvider as ExpoThemeProvider } from 'expo-router';
 import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
+import { ThemeProvider } from '../../lib/store/themeContext';
+import { SessionProvider } from '../../lib/store/sessionContext';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-
-export default function TabLayout() {
+export default function RootLayout() {
   const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
+    <ThemeProvider>
+      <SessionProvider>
+        <ExpoThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="session-detail"
+              options={{
+                title: 'Session Detail',
+                headerShown: false,
+                presentation: 'modal',
+              }}
+            />
+          </Stack>
+        </ExpoThemeProvider>
+      </SessionProvider>
     </ThemeProvider>
   );
 }

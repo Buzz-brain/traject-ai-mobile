@@ -32,15 +32,15 @@ export function GPSSignalIndicator({ signal = 'good' }) {
   const getIcon = () => {
     switch (signal) {
       case 'good':
-        return 'signal';
+        return 'cellular';
       case 'weak':
-        return 'signal';
+        return 'cellular';
       case 'poor':
-        return 'signal';
+        return 'cellular';
       case 'lost':
-        return 'signal-off';
+        return 'ban';
       default:
-        return 'signal-off';
+        return 'ban';
     }
   };
 

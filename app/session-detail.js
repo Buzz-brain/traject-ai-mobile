@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Text,
   Alert,
-  SafeAreaView,
 } from 'react-native';
 import MapView, { Polyline, Marker } from 'react-native-maps';
 import { useRoute } from '@react-navigation/native';
@@ -51,9 +50,9 @@ export default function SessionDetailScreen() {
 
   if (!session) {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? '#111827' : '#f9fafb', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, backgroundColor: isDark ? '#111827' : '#f9fafb', justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ color: isDark ? '#9ca3af' : '#6b7280' }}>Session not found</Text>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -189,7 +188,7 @@ export default function SessionDetailScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.title}>{session.sessionName}</Text>
@@ -303,6 +302,6 @@ export default function SessionDetailScreen() {
           }}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
