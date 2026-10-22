@@ -66,7 +66,7 @@ A secondary motivation is practical deployment in regions where mobile connectiv
 
 ### 3.3 AI trajectory prediction
 
-- Runs a quantised-size LSTM model directly in the app through TensorFlow.js.
+- Runs a compact LSTM model directly in the app through TensorFlow.js.
 - Uses a sliding window of the last ten GPS readings.
 - Input features: latitude, longitude, speed, heading.
 - Output: displacement in metres, `dx` and `dy`.
@@ -543,7 +543,16 @@ Two stacked LSTM layers learn short-term motion patterns. Dropout reduces overfi
 
 ### 10.3 Feature normalisation
 
-The model expects features scaled to a comparable range. The bundled scaler is:
+The model expects features scaled to a comparable range. Normalisation uses min-max scaling with clipping:
+
+```
+x_norm = (x − min) / (max − min)
+x_norm = clamp(x_norm, 0, 1)
+```
+
+Two scaler definitions exist in the repository:
+
+**Model reference scaler — `assets/model/scaler.json`**
 
 ```json
 {
@@ -553,13 +562,19 @@ The model expects features scaled to a comparable range. The bundled scaler is:
 }
 ```
 
-Normalisation uses min-max scaling:
+**Runtime scaler — `lib/utils/constants.js` (`MODEL_CONFIG.SCALER`)**
 
-```
-x_norm = (x − min) / (max − min)
+```json
+{
+  "data_min": [6.510, 3.390, 0.0, 0.0],
+  "data_max": [6.530, 3.410, 3.68, 355.6],
+  "feature_names": ["latitude", "longitude", "speed", "heading"]
+}
 ```
 
-The scaler's latitude/longitude range corresponds to a specific geographic area. The model performs best when the device is operating within or near that range. Outside it, normalised values fall outside the training distribution and predictions become less reliable. The project also contains a second scaler definition in `lib/utils/constants.js` with a different coordinate range, which illustrates the importance of keeping the scaler synchronised with the deployed model.
+The active inference path (`lib/services/predictionService.js` → `lib/utils/scaler.js`) reads the runtime scaler from `MODEL_CONFIG`, not the JSON file in `assets/model/`. The two ranges cover different Nigerian regions (the asset scaler around the Port Harcourt/Niger Delta area, the runtime scaler around Lagos). Because out-of-range values are clipped to 0 or 1, using the wrong scaler does not crash the model; instead it compresses coordinates into a constant region and degrades prediction quality.
+
+The model performs best when the device is operating inside the runtime scaler's range (approximately 6.510–6.530 latitude, 3.390–3.410 longitude). For deployment elsewhere, the scaler must be regenerated from the model's training data and kept in sync with the model version. This mismatch is one of the most important technical limitations to note in a report.
 
 ### 10.4 Inference pipeline
 
@@ -808,9 +823,9 @@ Reliability caveats:
 
 ### 16.8 Model/scaler mismatch
 
-**Problem:** Normalising coordinates outside the scaler's range pushes inputs outside the training distribution, producing near-zero or unstable predictions.
+**Problem:** Normalising coordinates outside the scaler's range pushes inputs outside the training distribution. In this codebase the model reference scaler (`assets/model/scaler.json`) and the runtime scaler (`MODEL_CONFIG.SCALER` in `lib/utils/constants.js`) describe different coordinate ranges. The runtime scaler is the one actually used, and clipping hides the mismatch rather than reporting it.
 
-**Solution:** The active predictor uses the scaler shipped alongside the model. The constants file documents the risk and provides an update point. In production, the scaler should be generated automatically from the training pipeline and versioned with the model.
+**Solution / mitigation:** The runtime scaler is explicitly defined in one configuration file, documented as needing to match the device's operating region, and the normaliser clips values to `[0, 1]` to avoid LSTM saturation. The correct production fix is to generate the scaler automatically from the training pipeline, ship it with the model, load it at runtime, and warn when incoming coordinates fall outside the training envelope. This remains an open item and is a good example of the practical gap between a model in a notebook and a deployed model.
 
 ---
 
