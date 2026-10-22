@@ -590,14 +590,16 @@ The model performs best when the device is operating inside the runtime scaler's
 8. Dispose the input and output tensors.
 9. Return `{ dx, dy, confidence }`.
 
-Confidence is a heuristic, not a calibrated probability:
+Confidence is a heuristic, not a calibrated probability. The active service uses:
 
 ```
 displacement = √(dx² + dy²)
-confidence = clamp(1 − displacement / 100, 0.1, 0.95)
+confidence = clamp(1 − displacement / 50, 0, 1)
 ```
 
-Very small displacements (< 2 m) are treated as noise and receive a low confidence of 0.1. The intuition is that large jumps are less trustworthy for short-term prediction, while small, stable movements are more plausible.
+The intuition is that large predicted jumps are less trustworthy for short-term prediction, while small, stable displacements are more plausible. This means a near-zero displacement produces a confidence close to 1.0, even if the model is simply predicting "stay still". The value is useful as a relative indicator in the UI, but it is not a statistically calibrated probability and should not be described as one in a report.
+
+The older, unused `src/lib/predictor.ts` contains a stricter variant (`1 − displacement / 100`, capped at 0.95, with a 2 m noise floor), and `HYBRID_CONFIG.MIN_MEANINGFUL_DISPLACEMENT_M` is defined but not applied by the active service. These inconsistencies are another reason to consolidate the two implementations.
 
 ### 10.5 Model loading on mobile
 
