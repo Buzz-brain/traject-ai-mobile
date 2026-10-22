@@ -11,23 +11,27 @@ import {
   Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../lib/store/themeContext';
-import { useSessionContext } from '../../lib/store/sessionContext';
-import { useLocationTracking } from '../../lib/hooks/useLocationTracking';
-import { useHybridTracking } from '../../lib/hooks/useHybridTracking';
-import OSMMapView from '../../src/components/OSMMapView';
-import MapOverlay from '../../src/components/MapOverlay';
-import BottomControls from '../../src/components/BottomControls';
-import { formatDistance, formatDuration } from '../../lib/utils/calculations';
+import { useTheme } from '../../../lib/store/themeContext';
+import { useSessionContext } from '../../../lib/store/sessionContext';
+import { useLocationTracking } from '../../../lib/hooks/useLocationTracking';
+import { useHybridTracking } from '../../../lib/hooks/useHybridTracking';
+import OSMMapView from '../../components/OSMMapView';
+import MapOverlay from '../../components/MapOverlay';
+import BottomControls from '../../components/BottomControls';
+import { formatDistance, formatDuration } from '../../../lib/utils/calculations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_CONFIG } from '../../../lib/utils/constants';
 
 export default function TrackerScreen() {
   const { isDark } = useTheme();
   const { createSession } = useSessionContext();
   const locationTracking = useLocationTracking();
-  const hybridTracking = useHybridTracking();
+  const hybridTracking = useHybridTracking({ gpsPoints: locationTracking.points });
 
   const [isTracking, setIsTracking] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [showAiDebug, setShowAiDebug] = useState(false);
+  const [gpsSimulated, setGpsSimulated] = useState(false); // GPS manually disabled for AI testing
   const [pulseAnim] = useState(() => new Animated.Value(1));
 
   useEffect(() => {
@@ -95,15 +99,66 @@ export default function TrackerScreen() {
     try {
       await locationTracking.stopTracking();
       setIsTracking(false);
+      setGpsSimulated(false);
+      hybridTracking.toggleSimulatedGps(false);
       const savedCount = gpsCount;
+
+    // Save AI points and diagnostics into the session for export
+    try {
+      const raw = await AsyncStorage.getItem(STORAGE_CONFIG.STORAGE_KEY_SESSIONS);
+      if (raw) {
+        const sessions = JSON.parse(raw);
+        const idx = sessions.findIndex(s => s.sessionId === locationTracking.sessionId);
+        if (idx >= 0) {
+          const session = sessions[idx];
+          // Merge AI predicted points into the session's points array
+          const aiPoints = (hybridTracking.state.predictedPoints || []).map(p => ({
+            lat: p.lat,
+            lon: p.lon,
+            timestamp: p.timestamp,
+            speed: p.speed || 0,
+            heading: p.heading || 0,
+            mode: 'hybrid',
+            source: 'ai',
+            confidence: p.confidence || 0,
+            accuracy: 0,
+            recordedMode: 'HYBRID',
+            dx: p.dx,
+            dy: p.dy,
+          }));
+          session.points = [...(session.points || []), ...aiPoints];
+          session.aiDiagnostics = {
+            modelStatus: hybridTracking.state.modelStatus,
+            lastPrediction: hybridTracking.state.lastPrediction,
+            modeAtStop: hybridTracking.state.mode,
+            predictionCount: hybridTracking.state.predictedPoints.length,
+            avgConfidence: hybridTracking.state.avgAiConfidence,
+            switchEvents: hybridTracking.state.switchEvents,
+            gpsPointsAtStop: hybridTracking.state.gpsPointsCount,
+            aiPointsAtStop: hybridTracking.state.aiPointsCount,
+          };
+          sessions[idx] = session;
+          await AsyncStorage.setItem(STORAGE_CONFIG.STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
+        }
+      }
+    } catch (e) {
+      console.error('Failed to save AI diagnostics:', e);
+    }
+
       Alert.alert(
         'Session Saved',
-        `${savedCount} GPS points recorded`,
+        `${savedCount} GPS · ${hybridTracking.state.aiPointsCount} AI points recorded`,
         [{ text: 'OK', onPress: () => locationTracking.reset() }],
       );
     } catch (error) {
       Alert.alert('Error', `Failed to stop tracking: ${error.message}`);
     }
+  };
+
+  const handleToggleGps = () => {
+    const turningOff = !gpsSimulated;
+    setGpsSimulated(turningOff);
+    hybridTracking.toggleSimulatedGps(turningOff);
   };
 
   const speed = locationTracking.currentSpeed || 0;
@@ -198,6 +253,7 @@ export default function TrackerScreen() {
               { icon: 'locate'  , iconColor: '#10b981', value: `${gpsCount}`, label: 'GPS Points' },
               { icon: 'analytics', iconColor: '#a855f7', value: `${aiCount}`, label: 'AI Points' },
               { icon: 'shield-checkmark', iconColor: '#f59e0b', value: `${Math.round(confidence * 100)}%`, label: 'Confidence' },
+              { icon: hybridTracking.state.predictionActive ? 'pulse' : 'radio', iconColor: hybridTracking.state.predictionActive ? '#10b981' : '#6b7280', value: mode === 'hybrid' ? 'Hybrid' : mode === 'ai_only' ? 'AI Only' : 'GPS', label: hybridTracking.state.predictionActive ? 'AI Predicting' : 'Mode' },
             ].map((item, idx) => (
               <View key={idx} style={[styles.detailCard, { backgroundColor: surfaceColor, borderColor }]}>
                 <Ionicons name={item.icon} size={14} color={item.iconColor} />
@@ -205,6 +261,63 @@ export default function TrackerScreen() {
                 <Text style={[styles.detailLabel, { color: mutedColor }]}>{item.label}</Text>
               </View>
             ))}
+          </View>
+        )}
+
+        {/* AI Diagnostics */}
+        {(isTracking || aiCount > 0 || hybridTracking.state.modelStatus !== 'idle') && (
+          <TouchableOpacity
+            style={[styles.detailsToggle, { borderColor, marginTop: 8 }]}
+            onPress={() => setShowAiDebug(!showAiDebug)}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.detailsToggleText, { color: mutedColor }]}>AI Diagnostics</Text>
+            <Ionicons
+              name={showAiDebug ? 'chevron-up' : 'chevron-down'}
+              size={14}
+              color={mutedColor}
+            />
+          </TouchableOpacity>
+        )}
+
+        {showAiDebug && (
+          <View style={[styles.detailGrid, { marginTop: 0 }]}>
+            {[
+              { icon: 'server', iconColor: hybridTracking.state.modelStatus === 'loaded' ? '#10b981' : hybridTracking.state.modelStatus === 'failed' ? '#ef4444' : hybridTracking.state.modelStatus === 'loading' ? '#f59e0b' : '#6b7280', value: hybridTracking.state.modelStatus === 'loaded' ? 'Loaded' : hybridTracking.state.modelStatus === 'loading' ? 'Loading…' : hybridTracking.state.modelStatus === 'failed' ? 'Failed' : 'Idle', label: 'Model' },
+              { icon: 'locate', iconColor: '#10b981', value: `${hybridTracking.state.gpsPoints.length}`, label: 'Hyb GPS' },
+              { icon: 'analytics', iconColor: '#a855f7', value: `${aiCount}`, label: 'AI Pts' },
+              { icon: hybridTracking.state.predictionActive ? 'pulse' : 'radio', iconColor: hybridTracking.state.predictionActive ? '#10b981' : '#6b7280', value: hybridTracking.state.predictionActive ? 'Predicting' : hybridTracking.state.mode === 'hybrid' ? 'Idle' : 'Off', label: 'Status' },
+            ].map((item, idx) => (
+              <View key={idx} style={[styles.detailCard, { backgroundColor: surfaceColor, borderColor }]}>
+                <Ionicons name={item.icon} size={14} color={item.iconColor} />
+                <Text style={[styles.detailValue, { color: statColor }]}>{item.value}</Text>
+                <Text style={[styles.detailLabel, { color: mutedColor }]}>{item.label}</Text>
+              </View>
+            ))}
+            {hybridTracking.state.predictionMessage ? (
+              <View style={[styles.lastPrediction, { backgroundColor: surfaceColor, borderColor }]}>
+                <Text style={[styles.lastPredLabel, { color: mutedColor }]}>AI Status</Text>
+                <Text style={[styles.lastPredValue, { color: statColor }]}>{hybridTracking.state.predictionMessage}</Text>
+              </View>
+            ) : null}
+            {hybridTracking.state.lastPrediction && (
+              <View style={[styles.lastPrediction, { backgroundColor: surfaceColor, borderColor }]}>
+                {hybridTracking.state.lastPrediction.error ? (
+                  <Text style={[styles.debugError, { color: '#ef4444' }]}>
+                    Error: {hybridTracking.state.lastPrediction.error}
+                  </Text>
+                ) : (
+                  <>
+                    <Text style={[styles.lastPredLabel, { color: mutedColor }]}>Last Prediction</Text>
+                    <Text style={[styles.lastPredValue, { color: statColor }]}>
+                      dx={hybridTracking.state.lastPrediction.dx.toFixed(2)}m · 
+                      dy={hybridTracking.state.lastPrediction.dy.toFixed(2)}m · 
+                      conf={Math.round(hybridTracking.state.lastPrediction.confidence * 100)}%
+                    </Text>
+                  </>
+                )}
+              </View>
+            )}
           </View>
         )}
         
@@ -252,7 +365,9 @@ export default function TrackerScreen() {
           )}
           <Text style={[styles.statusText, { color: mutedColor }]}>
             {isTracking
-              ? `Recording ${gpsCount} GPS · ${aiCount} AI`
+              ? hybridTracking.state.predictionActive
+                ? 'AI predicting…'
+                : `Recording ${gpsCount} GPS · ${aiCount} AI`
               : locationTracking.gpsReady === 'warming'
                 ? 'Acquiring GPS…'
                 : locationTracking.permissionGranted
@@ -270,6 +385,9 @@ export default function TrackerScreen() {
         onPause={handlePauseTracking}
         onResume={handleResumeTracking}
         onStop={handleStopTracking}
+        gpsSimulated={gpsSimulated}
+        onToggleGps={handleToggleGps}
+        gpsPointsCount={gpsCount}
         isDark={isDark}
       />
     </View>
@@ -427,6 +545,30 @@ const styles = StyleSheet.create({
   gpsBtnLabel: {
     color: '#ffffff',
     fontSize: 13,
+    fontWeight: '600',
+  },
+  lastPrediction: {
+    flexDirection: 'column',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    gap: 2,
+    marginTop: 4,
+  },
+  lastPredLabel: {
+    fontSize: 9,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  lastPredValue: {
+    fontSize: 13,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+  },
+  debugError: {
+    fontSize: 12,
     fontWeight: '600',
   },
 });

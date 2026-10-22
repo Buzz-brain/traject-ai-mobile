@@ -14,15 +14,15 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as Application from 'expo-application';
+import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { useTheme } from '../../lib/store/themeContext';
+import { useTheme } from '../../../lib/store/themeContext';
 import {
   ScreenHeader,
   Card,
   PrimaryButton,
   SecondaryButton,
-} from '../../components/common';
+} from '../../../components/common';
 
 /**
  * Settings Section Header
@@ -122,8 +122,12 @@ export default function SettingsScreen() {
   const [debugMode, setDebugMode] = useState(false);
   const [backgroundTracking, setBackgroundTracking] = useState(false);
 
-  const appVersion = Application.nativeApplicationVersion || '1.0.0';
-  const buildVersion = Application.nativeBuildVersion || '1';
+  const appVersion = Constants.expoConfig?.version || '1.0.0';
+  const buildVersion = String(
+    Constants.expoConfig?.android?.versionCode ??
+      Constants.expoConfig?.ios?.buildNumber ??
+      '1'
+  );
 
   const handleExportAllSessions = async () => {
     Alert.alert('Export All Sessions', 'Feature coming soon');

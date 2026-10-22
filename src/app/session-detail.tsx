@@ -5,8 +5,10 @@ import {
   StyleSheet,
   Text,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 import { useTheme } from '../../lib/store/themeContext';
@@ -33,6 +35,7 @@ import {
 
 export default function SessionDetailScreen() {
   const { isDark } = useTheme();
+  const router = useRouter();
   const { sessionId } = useLocalSearchParams<{ sessionId?: string }>();
   const { sessions } = useSessionContext();
   const [session, setSession] = useState<any | null>(null);
@@ -137,7 +140,20 @@ export default function SessionDetailScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         {/* Header */}
         <View style={styles.header}>
-          <View>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={styles.backButton}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+          >
+            <Ionicons
+              name="chevron-back"
+              size={22}
+              color={isDark ? '#e5e7eb' : '#0f172a'}
+            />
+          </TouchableOpacity>
+          <View style={styles.headerText}>
             <Text style={styles.title}>{session.sessionName}</Text>
             <Text style={styles.subtitle}>{formatSessionDate(session.createdAt)}</Text>
           </View>
@@ -231,6 +247,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 12,
+  },
+  headerText: {
+    flex: 1,
+  },
+  backButton: {
+    paddingVertical: 4,
+    marginRight: 8,
   },
   headerActions: {
     flexDirection: 'row',

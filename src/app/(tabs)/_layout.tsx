@@ -1,30 +1,52 @@
+import React from 'react';
 import { Tabs } from 'expo-router';
-import { useColorScheme } from 'react-native';
-import { Colors } from '@/constants/theme';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../../../lib/store/themeContext';
 
 export default function TabsLayout() {
-  const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme === 'light' ? 'light' : 'dark'];
+  const { isDark } = useTheme();
+
+  const activeTint = isDark ? '#10b981' : '#059669';
+  const inactiveTint = isDark ? '#6b7280' : '#9ca3af';
+  const tabBarStyle = {
+    backgroundColor: isDark ? '#0b1220' : '#ffffff',
+    borderTopColor: isDark ? '#1f2937' : '#e5e7eb',
+  };
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.text,
-        tabBarInactiveTintColor: colors.textSecondary,
-        tabBarStyle: { backgroundColor: colors.background },
-      }}>
+        headerShown: false,
+        tabBarActiveTintColor: activeTint,
+        tabBarInactiveTintColor: inactiveTint,
+        tabBarStyle,
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          headerShown: false,
+          title: 'Sessions',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="list" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="tracker"
         options={{
           title: 'Tracker',
-          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="navigate" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings-outline" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
