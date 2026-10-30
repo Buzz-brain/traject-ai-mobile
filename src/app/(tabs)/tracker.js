@@ -19,16 +19,18 @@ import OSMMapView from '../../components/OSMMapView';
 import MapOverlay from '../../components/MapOverlay';
 import BottomControls from '../../components/BottomControls';
 import { formatDistance, formatDuration } from '../../../lib/utils/calculations';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE_CONFIG } from '../../../lib/utils/constants';
 
 export default function TrackerScreen() {
   const { isDark } = useTheme();
   const { createSession } = useSessionContext();
   const locationTracking = useLocationTracking();
-  const hybridTracking = useHybridTracking({ gpsPoints: locationTracking.points });
-
   const [isTracking, setIsTracking] = useState(false);
+  const hybridTracking = useHybridTracking({
+    gpsPoints: locationTracking.points,
+    isTracking,
+    lastFixRef: locationTracking.lastFixRef,
+  });
+
   const [showDetails, setShowDetails] = useState(false);
   const [showAiDebug, setShowAiDebug] = useState(false);
   const [gpsSimulated, setGpsSimulated] = useState(false); // GPS manually disabled for AI testing
@@ -61,6 +63,10 @@ export default function TrackerScreen() {
         }
       }
 
+      // Start every session from a clean slate so no GPS/AI state leaks in.
+      await locationTracking.reset();
+      hybridTracking.reset();
+
       const newSession = await createSession(
         `Track ${new Date().toLocaleTimeString()}`,
         'hybrid',
@@ -68,7 +74,6 @@ export default function TrackerScreen() {
 
       if (newSession?.sessionId) {
         locationTracking.setSession(newSession.sessionId);
-        hybridTracking.setTrackingMode('gps_only');
         await locationTracking.startRecording();
         setIsTracking(true);
       }
@@ -101,54 +106,57 @@ export default function TrackerScreen() {
       setIsTracking(false);
       setGpsSimulated(false);
       hybridTracking.toggleSimulatedGps(false);
-      const savedCount = gpsCount;
 
-    // Save AI points and diagnostics into the session for export
-    try {
-      const raw = await AsyncStorage.getItem(STORAGE_CONFIG.STORAGE_KEY_SESSIONS);
-      if (raw) {
-        const sessions = JSON.parse(raw);
-        const idx = sessions.findIndex(s => s.sessionId === locationTracking.sessionId);
-        if (idx >= 0) {
-          const session = sessions[idx];
-          // Merge AI predicted points into the session's points array
-          const aiPoints = (hybridTracking.state.predictedPoints || []).map(p => ({
-            lat: p.lat,
-            lon: p.lon,
-            timestamp: p.timestamp,
-            speed: p.speed || 0,
-            heading: p.heading || 0,
-            mode: 'hybrid',
-            source: 'ai',
-            confidence: p.confidence || 0,
-            accuracy: 0,
-            recordedMode: 'HYBRID',
-            dx: p.dx,
-            dy: p.dy,
-          }));
-          session.points = [...(session.points || []), ...aiPoints];
-          session.aiDiagnostics = {
-            modelStatus: hybridTracking.state.modelStatus,
-            lastPrediction: hybridTracking.state.lastPrediction,
-            modeAtStop: hybridTracking.state.mode,
-            predictionCount: hybridTracking.state.predictedPoints.length,
-            avgConfidence: hybridTracking.state.avgAiConfidence,
-            switchEvents: hybridTracking.state.switchEvents,
-            gpsPointsAtStop: hybridTracking.state.gpsPointsCount,
-            aiPointsAtStop: hybridTracking.state.aiPointsCount,
-          };
-          sessions[idx] = session;
-          await AsyncStorage.setItem(STORAGE_CONFIG.STORAGE_KEY_SESSIONS, JSON.stringify(sessions));
-        }
+      // Ensure queued GPS writes land before appending AI points/diagnostics.
+      await locationTracking.flushSaves();
+
+      const savedCount = gpsCount;
+      const hybridAtStop = hybridTracking.state;
+      const aiCountAtStop = hybridAtStop.aiPointsCount;
+      const aiPointsAtStop = (hybridAtStop.predictedPoints || []).map(p => ({
+        lat: p.lat,
+        lon: p.lon,
+        timestamp: p.timestamp,
+        speed: p.speed || 0,
+        heading: p.heading || 0,
+        mode: 'hybrid',
+        source: 'ai',
+        confidence: p.confidence || 0,
+        accuracy: 0,
+        recordedMode: 'HYBRID',
+        dx: p.dx,
+        dy: p.dy,
+      }));
+
+      const aiDiagnosticsAtStop = {
+        modelStatus: hybridAtStop.modelStatus,
+        lastPrediction: hybridAtStop.lastPrediction,
+        modeAtStop: hybridAtStop.mode,
+        predictionCount: hybridAtStop.predictedPoints.length,
+        avgConfidence: hybridAtStop.avgAiConfidence,
+        switchEvents: hybridAtStop.switchEvents,
+        gpsPointsAtStop: hybridAtStop.gpsPointsCount,
+        aiPointsAtStop: aiCountAtStop,
+      };
+
+      // Queue the final GPS+AI snapshot through the same write queue.
+      try {
+        await locationTracking.saveSessionSnapshot(
+          [...locationTracking.points, ...aiPointsAtStop],
+          aiDiagnosticsAtStop,
+        );
+      } catch (e) {
+        console.error('Failed to save AI diagnostics:', e);
       }
-    } catch (e) {
-      console.error('Failed to save AI diagnostics:', e);
-    }
+
+      // Clear both engines immediately; the alert must not gate cleanup.
+      await locationTracking.reset();
+      hybridTracking.reset();
 
       Alert.alert(
         'Session Saved',
-        `${savedCount} GPS · ${hybridTracking.state.aiPointsCount} AI points recorded`,
-        [{ text: 'OK', onPress: () => locationTracking.reset() }],
+        `${savedCount} GPS · ${aiCountAtStop} AI points recorded`,
+        [{ text: 'OK' }],
       );
     } catch (error) {
       Alert.alert('Error', `Failed to stop tracking: ${error.message}`);
@@ -174,6 +182,12 @@ export default function TrackerScreen() {
     : accuracy != null
       ? accuracy <= 20 ? 'good' : accuracy <= 50 ? 'weak' : 'poor'
       : 'lost';
+  const aiPoints = hybridTracking.state.predictedPoints;
+  const lastAiPoint = aiPoints.length > 0 ? aiPoints[aiPoints.length - 1] : null;
+  const displayCurrentPos = lastAiPoint && mode !== 'gps_only'
+    ? { lat: lastAiPoint.lat, lon: lastAiPoint.lon }
+    : locationTracking.currentPos;
+  const overlaySignal = mode === 'gps_only' ? gpsSignal : 'lost';
 
   const bgColor = isDark ? '#0f172a' : '#f8fafc';
   const statColor = isDark ? '#f1f5f9' : '#1e293b';
@@ -188,13 +202,13 @@ export default function TrackerScreen() {
       <View style={styles.mapContainer}>
         <OSMMapView
           points={locationTracking.points}
-          currentPos={locationTracking.currentPos}
+          currentPos={displayCurrentPos}
           predictedPoints={hybridTracking.state.predictedPoints}
           showPredicted={hybridTracking.state.predictedPoints.length > 0}
         />
         <MapOverlay
           mode={mode}
-          signal={gpsSignal}
+          signal={overlaySignal}
           gpsPoints={gpsCount}
           aiPoints={aiCount}
           accuracy={accuracy}
