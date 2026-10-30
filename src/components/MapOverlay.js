@@ -94,7 +94,7 @@ export default function MapOverlay({
 const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
-    top: 12,
+    top: 16,
     left: 12,
     right: 12,
     zIndex: 20,
