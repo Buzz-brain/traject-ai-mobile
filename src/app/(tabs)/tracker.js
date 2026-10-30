@@ -456,13 +456,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   metricValue: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
     fontVariant: ['tabular-nums'],
   },
   metricLabel: {
     fontSize: 11,
-    fontWeight: '500',
+    fontWeight: '600',
     marginTop: 2,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
@@ -490,16 +490,16 @@ const styles = StyleSheet.create({
   detailGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
-    marginTop: 10,
+    gap: 10,
+    marginTop: 12,
   },
   detailCard: {
     width: '48%',
     alignItems: 'center',
-    paddingVertical: 12,
-    borderRadius: 12,
+    paddingVertical: 14,
+    borderRadius: 16,
     borderWidth: 1,
-    gap: 4,
+    gap: 6,
   },
   detailValue: {
     fontSize: 16,
@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 10,
-    fontWeight: '600',
+    fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 0.6,
   },
