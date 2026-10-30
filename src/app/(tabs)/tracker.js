@@ -19,7 +19,7 @@ import OSMMapView from '../../components/OSMMapView';
 import MapOverlay from '../../components/MapOverlay';
 import BottomControls from '../../components/BottomControls';
 import { formatDistance, formatDuration } from '../../../lib/utils/calculations';
-import { Colors } from '../../../constants/theme';
+import { Colors } from '../../constants/theme';
 
 export default function TrackerScreen() {
   const { isDark } = useTheme();
