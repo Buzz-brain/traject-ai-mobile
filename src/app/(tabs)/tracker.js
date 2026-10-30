@@ -516,8 +516,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 14,
+    marginTop: 16,
     gap: 8,
+    alignSelf: 'center',
+    backgroundColor: surfaceColor,
+    borderWidth: 1,
+    borderColor: borderColor,
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
   },
   recordingDot: {
     width: 8,
@@ -527,7 +534,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   gpsPrompt: {
     borderRadius: 14,
