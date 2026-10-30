@@ -19,6 +19,7 @@ import OSMMapView from '../../components/OSMMapView';
 import MapOverlay from '../../components/MapOverlay';
 import BottomControls from '../../components/BottomControls';
 import { formatDistance, formatDuration } from '../../../lib/utils/calculations';
+import { Colors } from '../../../constants/theme';
 
 export default function TrackerScreen() {
   const { isDark } = useTheme();
@@ -190,12 +191,13 @@ export default function TrackerScreen() {
     : locationTracking.currentPos;
   const overlaySignal = mode === 'gps_only' ? gpsSignal : 'lost';
 
-  const bgColor = isDark ? '#0f172a' : '#f8fafc';
-  const statColor = isDark ? '#f1f5f9' : '#1e293b';
-  const mutedColor = isDark ? '#94a3b8' : '#64748b';
-  const surfaceColor = isDark ? 'rgba(30,41,59,0.8)' : 'rgba(255,255,255,0.9)';
-  const borderColor = isDark ? 'rgba(51,65,85,0.5)' : 'rgba(0,0,0,0.06)';
-  const speedColor = speed > 0 ? '#10b981' : mutedColor;
+  const themeColors = isDark ? Colors.dark : Colors.light;
+  const bgColor = themeColors.background;
+  const statColor = themeColors.text;
+  const mutedColor = themeColors.textSecondary;
+  const surfaceColor = themeColors.surface;
+  const borderColor = themeColors.border;
+  const speedColor = speed > 0 ? themeColors.success : mutedColor;
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
@@ -426,28 +428,28 @@ const styles = StyleSheet.create({
   },
   speedSection: {
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 12,
   },
   speedValue: {
-    fontSize: 56,
-    fontWeight: '200',
+    fontSize: 64,
+    fontWeight: '700',
     fontVariant: ['tabular-nums'],
     letterSpacing: -2,
   },
   speedUnit: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 1.5,
-    marginTop: -6,
+    marginTop: -8,
   },
   metricRow: {
     flexDirection: 'row',
-    borderRadius: 14,
+    borderRadius: 18,
     borderWidth: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 8,
-    marginTop: 4,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    marginTop: 8,
   },
   metricItem: {
     flex: 1,

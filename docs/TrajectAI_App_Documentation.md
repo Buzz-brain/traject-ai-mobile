@@ -56,12 +56,12 @@ A secondary motivation is practical deployment in regions where mobile connectiv
 
 ### 3.2 Hybrid GPS + AI tracking
 
-- Monitors GPS quality using reported accuracy.
-- Automatically switches to AI prediction after approximately five seconds of GPS loss.
-- Generates a predicted point every two seconds while prediction mode is active.
+- Monitors GPS loss using the last usable fix and a freshness heartbeat, rather than saved points alone.
+- Automatically switches to AI prediction after approximately five seconds without a usable fix.
+- Generates a predicted point every two seconds while prediction mode is active, capped at a 30-point AI horizon.
 - Requires at least ten GPS points before prediction begins.
-- Prevents AI-to-AI feedback loops by training/predicting only from GPS-sourced points.
-- Automatically returns to GPS-only mode when a good GPS signal is restored.
+- Prevents AI-to-AI feedback loops by using only GPS-sourced points.
+- Automatically returns to GPS-only mode when a usable GPS fix returns.
 - Includes a manual "GPS / AI ON" toggle for demonstrating AI mode without physically losing GPS.
 
 ### 3.3 AI trajectory prediction
@@ -175,16 +175,16 @@ Expo Router (src/app)
 ### 5.2 Runtime data flow
 
 1. `useLocationTracking` subscribes to `expo-location` using `watchPositionAsync`.
-2. Raw positions pass through accuracy, warm-up, smoothing, stationary, spike, and movement gates.
-3. Accepted points are added to the GPS point array and written to AsyncStorage.
-4. The same points are passed as a prop into `useHybridTracking`.
+2. Positions pass through accuracy, warm-up, smoothing, stationary, spike, and movement gates; usable fixes refresh the hybrid last-usable-fix timestamp.
+3. Accepted points are added to the GPS point array and written to AsyncStorage through a serialized queue.
+4. The same points are passed as a prop into `useHybridTracking`, which deduplicates them by consumed external count.
 5. `useHybridTracking` monitors GPS freshness and signal quality.
-6. If GPS is lost beyond the threshold, it starts a two-second prediction interval.
+6. If no usable fix arrives beyond the threshold, it starts a two-second prediction interval.
 7. `predictionService` takes the last ten GPS-only points, normalises them, and calls the model.
 8. The model returns `dx`, `dy`; the app converts them to a predicted coordinate.
-9. Predicted points are appended to the AI trail, rendered in purple, and counted.
-10. When GPS recovers, the interval stops and the mode returns to GPS-only.
-11. On stop, AI points and diagnostics are merged into the saved session.
+9. Predicted points are appended to the AI trail, rendered in purple, and counted, up to the AI horizon.
+10. When a usable GPS fix returns, the interval stops and the mode returns to GPS-only.
+11. On stop, the final GPS-plus-AI snapshot is written before cleanup.
 
 ### 5.3 Navigation structure
 
@@ -451,15 +451,18 @@ Signal quality is derived from the latest GPS accuracy:
 - `poor`: accuracy ≤ 100 m.
 - `lost`: accuracy missing or > 100 m, or GPS manually disabled.
 
+The active loss detector uses the last usable fix and a freshness heartbeat from `useLocationTracking`; it does not rely solely on saved points, so stationary healthy fixes do not trigger false loss.
+
 ### 9.3 Switching logic
 
 1. The user starts tracking. The app creates a session and begins GPS recording.
-2. Every accepted GPS point refreshes a "last GPS time" heartbeat.
-3. If no GPS point arrives for five seconds, `gpsLossStart` is set. A dedicated freshness monitor catches silent OS-level loss.
+2. A usable GPS fix refreshes the last-usable-fix timestamp; a manual GPS-off override forces loss.
+3. If no usable fix arrives for five seconds, `gpsLossStart` is set. A dedicated freshness monitor catches silent OS-level loss.
 4. Once the loss exceeds five seconds, the mode switches to `hybrid`, and a prediction interval starts.
-5. Predictions run every two seconds, provided at least ten GPS points exist.
+5. Predictions run every two seconds, provided at least ten GPS points exist and the AI horizon has not been reached.
 6. Each prediction appends an AI point with source `ai`, confidence, `dx`, and `dy`.
-7. When a good GPS point returns and `gpsLossStart` is cleared, the mode switches back to `gps_only` and the interval stops.
+7. After 30 consecutive AI points, extrapolation stops and the engine waits for GPS.
+8. When a usable GPS fix returns and `gpsLossStart` is cleared, the mode switches back to `gps_only` and the interval stops.
 
 ### 9.4 Manual AI demonstration mode
 
@@ -482,6 +485,7 @@ AI predictions must not become the model's next input, or errors would compound.
 - The hybrid hook keeps the most recent 100 GPS points in memory.
 - The session itself retains all points.
 - The model always consumes the last 10 GPS points.
+- AI extrapolation stops after 30 consecutive predicted points while GPS remains lost.
 
 ### 9.7 Mode-switch telemetry
 
@@ -550,9 +554,7 @@ x_norm = (x − min) / (max − min)
 x_norm = clamp(x_norm, 0, 1)
 ```
 
-Two scaler definitions exist in the repository:
-
-**Model reference scaler — `assets/model/scaler.json`**
+The active runtime scaler is loaded from the model asset at `assets/model/scaler.json` through `MODEL_CONFIG.SCALER` in `lib/utils/constants.js`.
 
 ```json
 {
@@ -562,19 +564,9 @@ Two scaler definitions exist in the repository:
 }
 ```
 
-**Runtime scaler — `lib/utils/constants.js` (`MODEL_CONFIG.SCALER`)**
+Because out-of-range values are clipped to 0 or 1, using the wrong scaler does not crash the model; instead it compresses coordinates into a constant region and degrades prediction quality. The inference service now emits a throttled warning when the latest GPS point falls outside this training envelope.
 
-```json
-{
-  "data_min": [6.510, 3.390, 0.0, 0.0],
-  "data_max": [6.530, 3.410, 3.68, 355.6],
-  "feature_names": ["latitude", "longitude", "speed", "heading"]
-}
-```
-
-The active inference path (`lib/services/predictionService.js` → `lib/utils/scaler.js`) reads the runtime scaler from `MODEL_CONFIG`, not the JSON file in `assets/model/`. The two ranges cover different Nigerian regions (the asset scaler around the Port Harcourt/Niger Delta area, the runtime scaler around Lagos). Because out-of-range values are clipped to 0 or 1, using the wrong scaler does not crash the model; instead it compresses coordinates into a constant region and degrades prediction quality.
-
-The model performs best when the device is operating inside the runtime scaler's range (approximately 6.510–6.530 latitude, 3.390–3.410 longitude). For deployment elsewhere, the scaler must be regenerated from the model's training data and kept in sync with the model version. This mismatch is one of the most important technical limitations to note in a report.
+The model performs best when the device is operating inside the asset scaler's range. For deployment elsewhere, the scaler must be regenerated from the model's training data and kept in sync with the model version.
 
 ### 10.4 Inference pipeline
 
@@ -594,12 +586,12 @@ Confidence is a heuristic, not a calibrated probability. The active service uses
 
 ```
 displacement = √(dx² + dy²)
-confidence = clamp(1 − displacement / 50, 0, 1)
+confidence = clamp(0.05, 0.9, 0.3 * log1p(displacement / MIN_MEANINGFUL_DISPLACEMENT_M) / LN2)
 ```
 
-The intuition is that large predicted jumps are less trustworthy for short-term prediction, while small, stable displacements are more plausible. This means a near-zero displacement produces a confidence close to 1.0, even if the model is simply predicting "stay still". The value is useful as a relative indicator in the UI, but it is not a statistically calibrated probability and should not be described as one in a report.
+Small displacements receive low confidence; larger displacements receive higher confidence up to a ceiling of 0.9. This avoids presenting a near-zero predicted jump as highly confident, but it is not a statistically calibrated probability and should not be described as one in a report.
 
-The older, unused `src/lib/predictor.ts` contains a stricter variant (`1 − displacement / 100`, capped at 0.95, with a 2 m noise floor), and `HYBRID_CONFIG.MIN_MEANINGFUL_DISPLACEMENT_M` is defined but not applied by the active service. These inconsistencies are another reason to consolidate the two implementations.
+The older, unused `src/lib/predictor.ts` contains a stricter variant, and the active service now applies the shared `HYBRID_CONFIG.MIN_MEANINGFUL_DISPLACEMENT_M` floor. These inconsistencies are another reason to consolidate the two implementations.
 
 ### 10.5 Model loading on mobile
 
@@ -762,6 +754,7 @@ Several design choices keep the app usable on mobile hardware:
 - **Sliding window**: only ten points are fed to the model.
 - **Bounded memory**: the hybrid hook keeps 100 GPS points; the session keeps all points on disk.
 - **Throttled inference**: one prediction every two seconds, not on every GPS callback.
+- **AI horizon**: stops after 30 consecutive AI predictions while GPS is lost.
 - **Tensor disposal**: prevents GPU/CPU memory leaks across repeated inference.
 - **Single model instance**: the model is cached and reused.
 - **Load timeout**: 30 seconds prevents an indefinite hang.
