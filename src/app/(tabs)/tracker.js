@@ -144,6 +144,7 @@ export default function TrackerScreen() {
         await locationTracking.saveSessionSnapshot(
           [...locationTracking.points, ...aiPointsAtStop],
           aiDiagnosticsAtStop,
+          hybridAtStop.mode,
         );
       } catch (e) {
         console.error('Failed to save AI diagnostics:', e);
