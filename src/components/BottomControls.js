@@ -88,14 +88,15 @@ const styles = StyleSheet.create({
     right: 16,
     bottom: 18,
     zIndex: 50,
-    borderRadius: 18,
+    borderRadius: 24,
     paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
     borderWidth: 1,
   },
   row: {
     flexDirection: 'row',
     gap: 10,
+    alignItems: 'center',
   },
   pill: {
     flex: 1,
@@ -103,12 +104,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 14,
+    borderRadius: 16,
     gap: 8,
   },
   pillLabel: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '700',
   },
 });
