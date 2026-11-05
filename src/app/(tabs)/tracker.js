@@ -376,7 +376,7 @@ export default function TrackerScreen() {
         )}
 
         {/* Status */}
-        <View style={styles.statusRow}>
+        <View style={[styles.statusRow, { backgroundColor: surfaceColor, borderColor }]}>
           {isTracking && (
             <Animated.View style={[styles.recordingDot, { opacity: pulseAnim }]} />
           )}
@@ -519,9 +519,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     gap: 8,
     alignSelf: 'center',
-    backgroundColor: surfaceColor,
     borderWidth: 1,
-    borderColor: borderColor,
     borderRadius: 999,
     paddingHorizontal: 14,
     paddingVertical: 8,
