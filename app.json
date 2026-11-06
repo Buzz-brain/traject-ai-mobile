@@ -78,7 +78,11 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "187c024a-6ec9-426c-925f-fe2507e3cd88"
       }
-    }
+    },
+    "owner": "buzzbrain1"
   }
 }
