@@ -106,16 +106,24 @@ export default function HomeScreen() {
     return (
       <Card 
         onPress={() => handleViewSession(session.sessionId)} 
-        style={{ marginHorizontal: 16 }}
+        style={{
+          marginHorizontal: 0,
+          marginBottom: 14,
+          borderRadius: 24,
+          padding: 16,
+          borderColor: isDark ? '#233049' : '#ece7ff',
+          backgroundColor: isDark ? '#121b2d' : '#ffffff',
+        }}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <View style={{ flex: 1 }}>
             <Text 
               style={{
-                fontSize: 16,
-                fontWeight: '700',
-                color: isDark ? '#f3f4f6' : '#1f2937',
-                marginBottom: 4,
+                fontSize: 18,
+                fontWeight: '800',
+                color: isDark ? '#edf2ff' : '#17162a',
+                marginBottom: 6,
+                letterSpacing: -0.4,
               }}
             >
               {session.sessionName}
@@ -123,29 +131,32 @@ export default function HomeScreen() {
             <Text 
               style={{
                 fontSize: 12,
-                color: isDark ? '#9ca3af' : '#6b7280',
-                marginBottom: 8,
+                color: isDark ? '#aab8d3' : '#5f6078',
+                marginBottom: 12,
+                fontWeight: '600',
+                textTransform: 'uppercase',
+                letterSpacing: 0.7,
               }}
             >
               {formatSessionDate(session.createdAt)}
             </Text>
             
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-              <View>
-                <Text style={{ fontSize: 11, color: isDark ? '#9ca3af' : '#6b7280' }}>Distance</Text>
-                <Text style={{ fontSize: 14, fontWeight: '700', color: isDark ? '#10b981' : '#059669' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 }}>
+              <View style={{ flex: 1 }}>
+                <Text style={{ fontSize: 11, color: isDark ? '#9ca9bc' : '#6b7280', fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.7 }}>Distance</Text>
+                <Text style={{ fontSize: 16, fontWeight: '800', color: isDark ? '#8b5cf6' : '#6c63ff', marginTop: 4 }}>
                   {formatDistance(stats.distance)}
                 </Text>
               </View>
-              <View>
-                <Text style={{ fontSize: 11, color: isDark ? '#9ca3af' : '#6b7280' }}>Duration</Text>
-                <Text style={{ fontSize: 14, fontWeight: '700', color: isDark ? '#10b981' : '#059669' }}>
+              <View style={{ flex: 1, alignItems: 'center' }}>
+                <Text style={{ fontSize: 11, color: isDark ? '#9ca9bc' : '#6b7280', fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.7 }}>Duration</Text>
+                <Text style={{ fontSize: 16, fontWeight: '800', color: isDark ? '#60a5fa' : '#2563eb', marginTop: 4 }}>
                   {formatDuration(stats.duration)}
                 </Text>
               </View>
-              <View>
-                <Text style={{ fontSize: 11, color: isDark ? '#9ca3af' : '#6b7280' }}>Points</Text>
-                <Text style={{ fontSize: 14, fontWeight: '700', color: isDark ? '#10b981' : '#059669' }}>
+              <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                <Text style={{ fontSize: 11, color: isDark ? '#9ca9bc' : '#6b7280', fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.7 }}>Points</Text>
+                <Text style={{ fontSize: 16, fontWeight: '800', color: isDark ? '#34d399' : '#10b981', marginTop: 4 }}>
                   {(session.points || []).length}
                 </Text>
               </View>
@@ -155,7 +166,7 @@ export default function HomeScreen() {
           <SecondaryButton
             label="Delete"
             onPress={() => handleDeleteSession(session.sessionId)}
-            style={{ paddingHorizontal: 8, paddingVertical: 6, width: 70, marginLeft: 8 }}
+            style={{ paddingHorizontal: 10, paddingVertical: 6, width: 74, marginLeft: 10 }}
           />
         </View>
       </Card>
