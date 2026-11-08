@@ -61,14 +61,15 @@ function SettingRow({ icon, label, value, onPress, isSwitch = false, switchValue
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 12,
+        paddingHorizontal: 14,
+        borderRadius: 18,
       }}
     >
       {icon && (
         <Ionicons
           name={icon}
           size={20}
-          color={isDark ? '#9ca3af' : '#6b7280'}
+          color={isDark ? '#c7d2fe' : '#5b50d4'}
           style={{ marginRight: 12 }}
         />
       )}
@@ -86,8 +87,8 @@ function SettingRow({ icon, label, value, onPress, isSwitch = false, switchValue
         <Switch
           value={switchValue}
           onValueChange={onSwitchChange}
-          trackColor={{ false: '#d1d5db', true: '#10b981' }}
-          thumbColor={switchValue ? '#059669' : '#9ca3af'}
+          trackColor={{ false: '#d7d9f0', true: '#6c63ff' }}
+          thumbColor={switchValue ? '#ffffff' : '#9ca3af'}
         />
       ) : (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -153,27 +154,28 @@ export default function SettingsScreen() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: isDark ? '#111827' : '#f9fafb',
+      backgroundColor: isDark ? '#0c1220' : '#f5f3ff',
     },
     infoBox: {
       marginHorizontal: 16,
       marginTop: 16,
-      paddingHorizontal: 12,
-      paddingVertical: 10,
-      backgroundColor: isDark ? '#2d3748' : '#f3f4f6',
-      borderRadius: 8,
+      paddingHorizontal: 16,
+      paddingVertical: 14,
+      backgroundColor: isDark ? '#151d2b' : '#ffffff',
+      borderRadius: 18,
       borderWidth: 1,
-      borderColor: isDark ? '#4b5563' : '#e5e7eb',
+      borderColor: isDark ? '#21314a' : '#ece7ff',
     },
     infoText: {
       fontSize: 12,
-      color: isDark ? '#9ca3af' : '#6b7280',
+      color: isDark ? '#aebbd4' : '#5f6078',
       lineHeight: 18,
+      fontWeight: '600',
     },
     buttonContainer: {
       paddingHorizontal: 16,
       paddingVertical: 12,
-      gap: 8,
+      gap: 10,
     },
     rowButtons: {
       flexDirection: 'row',
@@ -186,7 +188,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <ScreenHeader title="Settings" />
+      <ScreenHeader title="Settings" subtitle="App preferences" />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Appearance */}
@@ -266,13 +268,14 @@ export default function SettingsScreen() {
 
         {/* About */}
         <SectionHeader title="About" />
-        <Card style={{ marginHorizontal: 16 }}>
+        <Card style={{ marginHorizontal: 16, borderRadius: 22, padding: 16 }}>
           <Text
             style={{
-              fontSize: 16,
-              fontWeight: '700',
-              color: isDark ? '#f3f4f6' : '#1f2937',
+              fontSize: 18,
+              fontWeight: '800',
+              color: isDark ? '#edf2ff' : '#17162a',
               marginBottom: 8,
+              letterSpacing: -0.3,
             }}
           >
             TrajectAI
@@ -280,8 +283,9 @@ export default function SettingsScreen() {
           <Text
             style={{
               fontSize: 12,
-              color: isDark ? '#9ca3af' : '#6b7280',
+              color: isDark ? '#aab8d3' : '#5f6078',
               lineHeight: 18,
+              fontWeight: '600',
             }}
           >
             GPS trajectory tracking with AI prediction for mobile devices

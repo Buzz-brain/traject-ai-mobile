@@ -64,11 +64,11 @@ export default function SessionDetailScreen() {
   const hasAiPoints = aiPoints.length > 0;
 
   const statData = [
-    { label: 'Distance', value: formatDistance(stats.distance), unit: 'km', color: isDark ? '#10b981' : '#059669' },
-    { label: 'Duration', value: formatDuration(stats.duration), unit: 'h', color: isDark ? '#3b82f6' : '#2563eb' },
-    { label: 'Avg Speed', value: formatSpeed(stats.avgSpeed), unit: 'm/s', color: isDark ? '#f59e0b' : '#d97706' },
-    { label: 'GPS Points', value: String(gpsPoints.length), unit: 'pts', color: isDark ? '#10b981' : '#059669' },
-    ...(hasAiPoints ? [{ label: 'AI Points', value: String(aiPoints.length), unit: 'pts', color: isDark ? '#a855f7' : '#9333ea' }] : []),
+    { label: 'Distance', value: formatDistance(stats.distance), unit: 'km', color: isDark ? '#8b5cf6' : '#6c63ff' },
+    { label: 'Duration', value: formatDuration(stats.duration), unit: 'h', color: isDark ? '#60a5fa' : '#2563eb' },
+    { label: 'Avg Speed', value: formatSpeed(stats.avgSpeed), unit: 'm/s', color: isDark ? '#fbbf24' : '#d97706' },
+    { label: 'GPS Points', value: String(gpsPoints.length), unit: 'pts', color: isDark ? '#34d399' : '#10b981' },
+    ...(hasAiPoints ? [{ label: 'AI Points', value: String(aiPoints.length), unit: 'pts', color: isDark ? '#c084fc' : '#9333ea' }] : []),
   ];
 
   const handleExport = async (format: 'json' | 'csv' | 'gpx') => {
@@ -136,9 +136,8 @@ export default function SessionDetailScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: isDark ? '#0b1220' : '#f8fafc' }]}>
+    <View style={[styles.container, { backgroundColor: isDark ? '#0c1220' : '#f5f3ff' }]}>
       <ScrollView contentContainerStyle={styles.content}>
-        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => router.back()}
@@ -150,21 +149,20 @@ export default function SessionDetailScreen() {
             <Ionicons
               name="chevron-back"
               size={22}
-              color={isDark ? '#e5e7eb' : '#0f172a'}
+              color={isDark ? '#edf2ff' : '#17162a'}
             />
           </TouchableOpacity>
           <View style={styles.headerText}>
-            <Text style={styles.title}>{session.sessionName}</Text>
-            <Text style={styles.subtitle}>{formatSessionDate(session.createdAt)}</Text>
+            <Text style={[styles.title, { color: isDark ? '#edf2ff' : '#17162a' }]}>{session.sessionName}</Text>
+            <Text style={[styles.subtitle, { color: isDark ? '#aab5ca' : '#5f6078' }]}>{formatSessionDate(session.createdAt)}</Text>
           </View>
           <View style={styles.headerActions}>
             <SecondaryButton label="Share" onPress={() => handleExport('json')} />
           </View>
         </View>
 
-        {/* Hero map */}
         {points.length > 0 && (
-          <View style={styles.mapHero}>
+          <View style={[styles.mapHero, { borderColor: isDark ? '#212e41' : '#e9e5ff' }]}>
             <OSMMapView 
               points={gpsPoints as any} 
               predictedPoints={aiPoints as any}
@@ -173,38 +171,34 @@ export default function SessionDetailScreen() {
           </View>
         )}
 
-        {/* KPI row */}
         <View style={styles.kpiRow}>
           <StatGrid stats={statData} />
         </View>
 
-        {/* Timeline / chart placeholder */}
-        <Card style={[styles.card, styles.timelineCard]}>
-          <Text style={styles.sectionTitle}>Speed / Accuracy Timeline</Text>
-          <View style={styles.timelinePlaceholder} />
+        <Card style={[styles.card, styles.timelineCard, { backgroundColor: isDark ? '#121b2d' : '#ffffff', borderColor: isDark ? '#1f2b3d' : '#eee9ff' }]}>
+          <Text style={[styles.sectionTitle, { color: isDark ? '#edf2ff' : '#17162a' }]}>Speed / Accuracy Timeline</Text>
+          <View style={[styles.timelinePlaceholder, { backgroundColor: isDark ? '#1a2332' : '#f2f1ff' }]} />
         </Card>
 
-        {/* Actions */}
         <View style={styles.actionsRow}>
           <PrimaryButton label="Export JSON" onPress={() => handleExport('json')} variant="success" />
           <SecondaryButton label="Export CSV" onPress={() => handleExport('csv')} />
           <SecondaryButton label="Export GPX" onPress={() => handleExport('gpx')} />
         </View>
 
-        {/* Details accordion */}
-        <Card style={[styles.card, styles.detailsCard]}>
-          <Text style={styles.sectionTitle}>Details</Text>
+        <Card style={[styles.card, styles.detailsCard, { backgroundColor: isDark ? '#121b2d' : '#ffffff', borderColor: isDark ? '#1f2b3d' : '#eee9ff' }]}>
+          <Text style={[styles.sectionTitle, { color: isDark ? '#edf2ff' : '#17162a' }]}>Details</Text>
           <View style={styles.detailsRow}>
-            <Text style={styles.detailLabel}>Total Points</Text>
-            <Text style={styles.detailValue}>{points.length}</Text>
+            <Text style={[styles.detailLabel, { color: isDark ? '#afbcd6' : '#5f6078' }]}>Total Points</Text>
+            <Text style={[styles.detailValue, { color: isDark ? '#edf2ff' : '#17162a' }]}>{points.length}</Text>
           </View>
           <View style={styles.detailsRow}>
-            <Text style={styles.detailLabel}>Avg Accuracy</Text>
-            <Text style={styles.detailValue}>{(stats.avgAccuracy || 0).toFixed(1)} m</Text>
+            <Text style={[styles.detailLabel, { color: isDark ? '#afbcd6' : '#5f6078' }]}>Avg Accuracy</Text>
+            <Text style={[styles.detailValue, { color: isDark ? '#edf2ff' : '#17162a' }]}>{(stats.avgAccuracy || 0).toFixed(1)} m</Text>
           </View>
           <View style={styles.detailsRow}>
-            <Text style={styles.detailLabel}>Avg AI Confidence</Text>
-            <Text style={styles.detailValue}>{(stats.avgAiConfidence || 0).toFixed(2)}</Text>
+            <Text style={[styles.detailLabel, { color: isDark ? '#afbcd6' : '#5f6078' }]}>Avg AI Confidence</Text>
+            <Text style={[styles.detailValue, { color: isDark ? '#edf2ff' : '#17162a' }]}>{(stats.avgAiConfidence || 0).toFixed(2)}</Text>
           </View>
         </Card>
       </ScrollView>
@@ -217,21 +211,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    padding: 16,
+    padding: 18,
     paddingBottom: 40,
   },
   card: {
     marginBottom: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#0f172a',
-    marginBottom: 8,
+    fontSize: 28,
+    fontWeight: '800',
+    letterSpacing: -0.7,
+    marginBottom: 6,
   },
   subtitle: {
-    fontSize: 14,
-    color: '#9ca3af',
+    fontSize: 13,
+    fontWeight: '600',
   },
   emptyText: {
     color: '#9ca3af',
@@ -246,13 +240,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 14,
+    paddingTop: 10,
   },
   headerText: {
     flex: 1,
+    marginLeft: 4,
   },
   backButton: {
-    paddingVertical: 4,
+    width: 38,
+    height: 38,
+    borderRadius: 12,
+    backgroundColor: 'rgba(108,99,255,0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 8,
   },
   headerActions: {
@@ -260,47 +261,56 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   mapHero: {
-    height: 320,
-    borderRadius: 12,
+    height: 300,
+    borderRadius: 26,
     overflow: 'hidden',
-    marginBottom: 12,
+    marginBottom: 14,
+    borderWidth: 1,
+    shadowColor: '#4738c9',
+    shadowOpacity: 0.12,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 6,
   },
   kpiRow: {
-    marginBottom: 12,
+    marginBottom: 14,
   },
   timelineCard: {
-    padding: 12,
+    padding: 14,
+    borderRadius: 24,
   },
   timelinePlaceholder: {
-    height: 80,
-    borderRadius: 8,
-    backgroundColor: '#eef2ff',
+    height: 90,
+    borderRadius: 18,
   },
   actionsRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 8,
-    marginBottom: 12,
+    marginBottom: 14,
   },
   detailsCard: {
-    padding: 12,
+    padding: 14,
+    borderRadius: 24,
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 8,
-    color: '#0f172a',
+    fontWeight: '800',
+    marginBottom: 10,
+    letterSpacing: -0.2,
   },
   detailsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   detailLabel: {
-    color: '#6b7280',
+    fontSize: 13,
+    fontWeight: '600',
   },
   detailValue: {
+    fontSize: 13,
     fontWeight: '700',
-    color: '#0f172a',
   },
   buttonGroup: {
     gap: 10,
