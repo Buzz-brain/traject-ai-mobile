@@ -27,19 +27,19 @@ export default function BottomControls({
   gpsPointsCount = 0,
   isDark = true,
 }) {
-  const bgColor = isDark ? 'rgba(15,23,42,0.92)' : 'rgba(255,255,255,0.95)';
-  const borderC = isDark ? 'rgba(51,65,85,0.4)' : 'rgba(0,0,0,0.06)';
+  const bgColor = isDark ? 'rgba(11,17,29,0.9)' : 'rgba(255,255,255,0.92)';
+  const borderC = isDark ? 'rgba(122,140,255,0.22)' : 'rgba(108,99,255,0.12)';
 
   const canUseAI = gpsPointsCount >= 10;
   const toggleLabel = canUseAI
-    ? (gpsSimulated ? "AI ON" : "GPS")
-    : "AI needs 10 pts";
+    ? (gpsSimulated ? 'AI ON' : 'GPS')
+    : 'AI needs 10 pts';
   const toggleIcon = canUseAI
-    ? (gpsSimulated ? "analytics" : "navigate")
-    : "lock-closed";
+    ? (gpsSimulated ? 'analytics' : 'navigate')
+    : 'lock-closed';
   const toggleColor = canUseAI
-    ? (gpsSimulated ? "#a855f7" : "#64748b")
-    : "#334155";
+    ? (gpsSimulated ? '#7c6cff' : '#5b647a')
+    : '#334155';
 
   const handleTogglePress = () => {
     if (!canUseAI && !gpsSimulated) {
@@ -55,7 +55,7 @@ export default function BottomControls({
   return (
     <View style={[styles.container, { backgroundColor: bgColor, borderColor: borderC }]}>
       {!isTracking && status === 'idle' && (
-        <PillButton icon="play" label="Start" color="#10b981" onPress={onStart} />
+        <PillButton icon="play" label="Start" color="#6c63ff" onPress={onStart} />
       )}
 
       {isTracking && status === 'recording' && (
@@ -73,7 +73,7 @@ export default function BottomControls({
 
       {!isTracking && status === 'paused' && (
         <View style={styles.row}>
-          <PillButton icon="play" label="Resume" color="#10b981" onPress={onResume} />
+          <PillButton icon="play" label="Resume" color="#6c63ff" onPress={onResume} />
           <PillButton icon="stop" label="Stop" color="#ef4444" onPress={onStop} />
         </View>
       )}
@@ -88,10 +88,15 @@ const styles = StyleSheet.create({
     right: 16,
     bottom: 18,
     zIndex: 50,
-    borderRadius: 24,
+    borderRadius: 26,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderWidth: 1,
+    shadowColor: '#4738c9',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.18,
+    shadowRadius: 18,
+    elevation: 10,
   },
   row: {
     flexDirection: 'row',
@@ -104,8 +109,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 14,
-    borderRadius: 16,
+    borderRadius: 18,
     gap: 8,
+    shadowColor: '#5d51ee',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 6,
   },
   pillLabel: {
     color: '#ffffff',

@@ -52,8 +52,13 @@ export default function MapOverlay({
 }) {
   return (
     <View style={styles.wrapper} pointerEvents="box-none">
-      <View style={[styles.card, { backgroundColor: isDark ? 'rgba(15,23,42,0.85)' : 'rgba(255,255,255,0.9)' }]}>
-        {/* Row 1: Signal + Mode */}
+      <View style={[
+        styles.card,
+        {
+          backgroundColor: isDark ? 'rgba(17,24,39,0.82)' : 'rgba(255,255,255,0.86)',
+          borderColor: isDark ? 'rgba(140,155,255,0.2)' : 'rgba(108,99,255,0.12)',
+        },
+      ]}>
         <View style={styles.topRow}>
           <View style={styles.signalRow}>
             <View style={[styles.signalDot, { backgroundColor: signalColor(signal) }]} />
@@ -66,7 +71,6 @@ export default function MapOverlay({
           </View>
         </View>
 
-        {/* Row 2: Points + Accuracy */}
         <View style={styles.bottomRow}>
           <View style={styles.statItem}>
             <Ionicons name="locate" size={11} color={isDark ? '#94a3b8' : '#64748b'} />
@@ -74,7 +78,7 @@ export default function MapOverlay({
               {gpsPoints} pts
             </Text>
             {aiPoints > 0 && (
-              <Text style={[styles.statText, { color: '#a855f7' }]}>
+              <Text style={[styles.statText, { color: '#8b5cf6' }]}>
                 · {aiPoints} AI
               </Text>
             )}
@@ -100,11 +104,15 @@ const styles = StyleSheet.create({
     zIndex: 20,
   },
   card: {
-    borderRadius: 20,
+    borderRadius: 22,
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+    shadowColor: '#4338ca',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.16,
+    shadowRadius: 16,
+    elevation: 8,
   },
   topRow: {
     flexDirection: 'row',
@@ -123,23 +131,23 @@ const styles = StyleSheet.create({
   },
   signalText: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   modeBadge: {
     paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 6,
+    paddingVertical: 4,
+    borderRadius: 999,
   },
   modeText: {
     color: '#ffffff',
     fontSize: 11,
-    fontWeight: '700',
+    fontWeight: '800',
     letterSpacing: 0.8,
   },
   bottomRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 6,
+    marginTop: 8,
   },
   statItem: {
     flexDirection: 'row',
@@ -148,6 +156,6 @@ const styles = StyleSheet.create({
   },
   statText: {
     fontSize: 11,
-    fontWeight: '600',
+    fontWeight: '700',
   },
 });
