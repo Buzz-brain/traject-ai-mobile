@@ -416,7 +416,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mapContainer: {
-    height: '50%',
+    height: '48%',
+    marginHorizontal: 12,
+    marginTop: 12,
+    borderRadius: 28,
+    overflow: 'hidden',
+    shadowColor: '#4338ca',
+    shadowOpacity: 0.14,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 10,
   },
   statsPanel: {
     flex: 1,

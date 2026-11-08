@@ -17,10 +17,11 @@ const MAP_HTML = `<!doctype html>
 <style>
 *{margin:0;padding:0}
 html,body,#map{height:100%}
-#loading{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1a1a2e;color:#94a3b8;font-family:sans-serif;font-size:14px;z-index:999}
+html,body{background:linear-gradient(180deg,#0f172a 0%,#171b36 100%)}
+#loading{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#121b2d 0%,#1b2340 100%);color:#dfe7ff;font-family:sans-serif;font-size:14px;font-weight:600;z-index:999}
 #fallback{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:#1a1a2e}
-#grid{position:absolute;top:0;left:0;width:100%;height:100%;stroke:#444;stroke-width:1}
-.map-error{display:none;position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.85);color:#ef4444;padding:10px 14px;border-radius:6px;font-size:14px;z-index:1000;max-width:80%}
+#grid{position:absolute;top:0;left:0;width:100%;height:100%;stroke:#3d456d;stroke-width:1}
+.map-error{display:none;position:absolute;top:10px;left:10px;background:rgba(15,23,42,0.9);color:#fca5a5;padding:10px 14px;border-radius:10px;font-size:14px;z-index:1000;max-width:80%}
 </style>
 </head>
 <body>
@@ -63,9 +64,15 @@ function initMap() {
     return;
   }
 
-  map = L.map('map').setView([9.082, 8.6753], 2);
+  map = L.map('map', {
+    zoomControl: true,
+    attributionControl: true,
+    dragging: true,
+    zoomSnap: 0.25,
+    preferCanvas: true,
+  }).setView([9.082, 8.6753], 2);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19, attribution: '\u00a9 OpenStreetMap'
+    maxZoom: 19, attribution: '\u00a9 OpenStreetMap', crossOrigin: true
   }).on('load', function() {
     if (loadingEl) loadingEl.style.display = 'none';
   }).on('tileerror', function() {
@@ -82,7 +89,7 @@ function setCurrentPos(lat, lon) {
   if (!map) return;
   if (marker) map.removeLayer(marker);
   marker = L.circleMarker([lat, lon], {
-    radius: 7, color: '#059669', fillColor: '#10b981', fillOpacity: 1, weight: 3
+    radius: 7, color: '#e2e8f0', fillColor: '#6c63ff', fillOpacity: 1, weight: 3
   }).addTo(map);
   map.setView([lat, lon], 14);
   if (loadingEl) loadingEl.style.display = 'none';
@@ -92,7 +99,7 @@ function setTrail(pts) {
   if (!map) return;
   if (trail) map.removeLayer(trail);
   if (!pts || pts.length === 0) return;
-  trail = L.polyline(pts, { color: '#10b981', weight: 4, opacity: 0.8 }).addTo(map);
+  trail = L.polyline(pts, { color: '#34d399', weight: 4, opacity: 0.92 }).addTo(map);
   if (pts.length > 1) {
     map.fitBounds(trail.getBounds(), { padding: [20,20] });
   }
@@ -104,9 +111,9 @@ function setAiTrail(pts) {
   aiMarkers.forEach(function(m) { map.removeLayer(m); });
   aiMarkers = [];
   if (!pts || pts.length === 0) return;
-  aiTrail = L.polyline(pts, { color: '#a855f7', weight: 3, dashArray: '6 4', opacity: 0.7 }).addTo(map);
+  aiTrail = L.polyline(pts, { color: '#8b5cf6', weight: 3, dashArray: '6 4', opacity: 0.9 }).addTo(map);
   pts.forEach(function(p, idx) {
-    var m = L.circleMarker(p, { radius: 5, color: '#7e22ce', fillColor: '#a855f7', fillOpacity: 0.85, weight: 2 })
+    var m = L.circleMarker(p, { radius: 5, color: '#e9d5ff', fillColor: '#8b5cf6', fillOpacity: 0.95, weight: 2 })
       .bindPopup('AI Pred #' + (idx + 1)).addTo(map);
     aiMarkers.push(m);
   });
@@ -167,19 +174,21 @@ export function OSMMapView({ points = [], currentPos, predictedPoints = [], show
   }, [predictedPoints, showPredicted, postMsg]);
 
   return (
-    <WebView
-      ref={webviewRef}
-      originWhitelist={["*"]}
-      source={{ html: MAP_HTML }}
-      style={{ flex: 1, backgroundColor: '#1a1a2e' }}
-      javaScriptEnabled
-      domStorageEnabled
-      scalesPageToFit={Platform.OS === 'android'}
-      mixedContentMode="compatibility"
-      allowFileAccess
-      cacheEnabled={false}
-      setSupportMultipleWindows={false}
-    />
+    <View style={{ flex: 1, overflow: 'hidden', borderRadius: 26, backgroundColor: '#111827' }}>
+      <WebView
+        ref={webviewRef}
+        originWhitelist={["*"]}
+        source={{ html: MAP_HTML }}
+        style={{ flex: 1, backgroundColor: '#111827' }}
+        javaScriptEnabled
+        domStorageEnabled
+        scalesPageToFit={Platform.OS === 'android'}
+        mixedContentMode="compatibility"
+        allowFileAccess
+        cacheEnabled={false}
+        setSupportMultipleWindows={false}
+      />
+    </View>
   );
 }
 
