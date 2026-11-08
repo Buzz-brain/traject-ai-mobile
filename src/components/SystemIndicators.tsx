@@ -19,8 +19,8 @@ export function SystemIndicators({ mode, gpsSignal, confidence, isTracking, gpsP
   return (
     <View style={styles.card}>
       <View style={styles.row}>
-        <View style={styles.badge}><Text style={styles.badgeText}>{mode.replace('_', ' ').toUpperCase()}</Text></View>
-        <View style={styles.badge}><Text style={styles.badgeText}>{gpsSignal.toUpperCase()}</Text></View>
+        <View style={[styles.badge, { backgroundColor: '#eae5ff' }]}><Text style={[styles.badgeText, { color: '#4f46e5' }]}>{mode.replace('_', ' ').toUpperCase()}</Text></View>
+        <View style={[styles.badge, { backgroundColor: '#dff7ec' }]}><Text style={[styles.badgeText, { color: '#0f766e' }]}>{gpsSignal.toUpperCase()}</Text></View>
       </View>
 
       <View style={styles.rowSpace}>
@@ -39,17 +39,23 @@ export function SystemIndicators({ mode, gpsSignal, confidence, isTracking, gpsP
 }
 
 const styles = StyleSheet.create({
-  card: { padding: 12, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.04)' },
+  card: {
+    padding: 14,
+    borderRadius: 22,
+    backgroundColor: 'rgba(17,24,39,0.82)',
+    borderWidth: 1,
+    borderColor: 'rgba(140,155,255,0.2)',
+  },
   row: { flexDirection: 'row', gap: 8, alignItems: 'center' },
   rowSpace: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 8 },
-  badge: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999, backgroundColor: '#e6eef8' },
-  badgeText: { fontSize: 12, fontWeight: '700' },
+  badge: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999 },
+  badgeText: { fontSize: 12, fontWeight: '800', letterSpacing: 0.7 },
   small: { fontSize: 12, color: '#cbd5e1' },
   metric: { flex: 1 },
   metricLabel: { fontSize: 11, color: '#94a3b8' },
-  metricValue: { fontSize: 14, fontWeight: '700' },
-  pred: { marginTop: 8, padding: 8, borderRadius: 8, backgroundColor: '#f3e8ff' },
-  predText: { color: '#6b21a8', fontWeight: '700' }
+  metricValue: { fontSize: 14, fontWeight: '800', color: '#f8fafc' },
+  pred: { marginTop: 8, padding: 8, borderRadius: 10, backgroundColor: '#f3e8ff' },
+  predText: { color: '#6b21a8', fontWeight: '800' }
 });
 
 export default SystemIndicators;
