@@ -29,17 +29,17 @@ export function Card({
 
   const styles = StyleSheet.create({
     card: {
-      backgroundColor: isDark ? '#2d3748' : '#ffffff',
-      borderRadius: 12,
-      padding: 16,
+      backgroundColor: isDark ? '#151d2b' : '#ffffff',
+      borderRadius: 22,
+      padding: 18,
       marginBottom: 12,
       borderWidth: 1,
-      borderColor: isDark ? '#4b5563' : '#e5e7eb',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: isDark ? 0.3 : 0.1,
-      shadowRadius: 3,
-      elevation: 3,
+      borderColor: isDark ? '#243041' : '#f0edff',
+      shadowColor: '#4738c9',
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: isDark ? 0.18 : 0.08,
+      shadowRadius: 16,
+      elevation: 4,
       ...style,
     },
   });

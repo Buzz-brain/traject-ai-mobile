@@ -27,22 +27,24 @@ export function ScreenHeader({
 
   const styles = StyleSheet.create({
     header: {
-      paddingHorizontal: 16,
-      paddingVertical: 20,
-      backgroundColor: isDark ? '#1f2937' : '#ffffff',
-      borderBottomWidth: 1,
-      borderBottomColor: isDark ? '#374151' : '#e5e7eb',
+      paddingHorizontal: 18,
+      paddingTop: 24,
+      paddingBottom: 16,
+      backgroundColor: isDark ? '#0f1522' : '#f9f8ff',
+      borderBottomWidth: 0,
       ...style,
     },
     title: {
-      fontSize: 28,
-      fontWeight: '700',
-      color: isDark ? '#f3f4f6' : '#1f2937',
+      fontSize: 30,
+      fontWeight: '800',
+      color: isDark ? '#eef2ff' : '#17162a',
+      letterSpacing: -0.8,
       marginBottom: subtitle ? 4 : 0,
     },
     subtitle: {
-      fontSize: 14,
-      color: isDark ? '#9ca3af' : '#6b7280',
+      fontSize: 13,
+      color: isDark ? '#aab4c7' : '#595b75',
+      fontWeight: '600',
     },
   });
 

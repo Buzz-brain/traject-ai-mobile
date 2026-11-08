@@ -165,7 +165,81 @@ export default function HomeScreen() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: isDark ? '#111827' : '#f9fafb',
+      backgroundColor: isDark ? '#0c1220' : '#f5f3ff',
+    },
+    heroCard: {
+      marginHorizontal: 18,
+      marginTop: 18,
+      marginBottom: 16,
+      borderRadius: 28,
+      padding: 20,
+      backgroundColor: isDark ? '#151d2b' : '#ffffff',
+      borderWidth: 1,
+      borderColor: isDark ? '#1f2a39' : '#e9e5ff',
+      shadowColor: '#6d5efc',
+      shadowOpacity: isDark ? 0.2 : 0.1,
+      shadowRadius: 18,
+      shadowOffset: { width: 0, height: 10 },
+      elevation: 6,
+    },
+    heroTopRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    miniBadge: {
+      paddingHorizontal: 10,
+      paddingVertical: 6,
+      borderRadius: 20,
+      backgroundColor: isDark ? '#2a2e48' : '#f0edff',
+    },
+    miniBadgeText: {
+      fontSize: 11,
+      fontWeight: '700',
+      color: isDark ? '#dfe5ff' : '#5045c1',
+      letterSpacing: 0.8,
+      textTransform: 'uppercase',
+    },
+    heroTitle: {
+      fontSize: 32,
+      fontWeight: '800',
+      color: isDark ? '#eef4ff' : '#191730',
+      letterSpacing: -0.9,
+      marginBottom: 6,
+    },
+    heroSub: {
+      fontSize: 14,
+      color: isDark ? '#aebad0' : '#5f6078',
+      lineHeight: 20,
+      marginBottom: 18,
+    },
+    statRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 10,
+    },
+    statTile: {
+      flex: 1,
+      borderRadius: 18,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      backgroundColor: isDark ? '#1a2331' : '#f7f5ff',
+      borderWidth: 1,
+      borderColor: isDark ? '#273244' : '#ece7ff',
+      alignItems: 'center',
+    },
+    statLabel: {
+      fontSize: 11,
+      fontWeight: '700',
+      color: isDark ? '#9da9be' : '#676b88',
+      textTransform: 'uppercase',
+      marginBottom: 6,
+    },
+    statValue: {
+      fontSize: 18,
+      fontWeight: '800',
+      color: isDark ? '#f4f7ff' : '#191730',
     },
     emptyContainer: {
       flex: 1,
@@ -177,25 +251,35 @@ export default function HomeScreen() {
       marginBottom: 16,
     },
     emptyText: {
-      fontSize: 16,
-      fontWeight: '600',
-      color: isDark ? '#9ca3af' : '#6b7280',
+      fontSize: 18,
+      fontWeight: '700',
+      color: isDark ? '#e8eefb' : '#1d1b2d',
       textAlign: 'center',
       marginBottom: 8,
     },
     emptySubtext: {
       fontSize: 14,
-      color: isDark ? '#6b7280' : '#9ca3af',
+      color: isDark ? '#9aa4b5' : '#666a84',
       textAlign: 'center',
       marginBottom: 24,
+      lineHeight: 20,
     },
     buttonContainer: {
-      paddingHorizontal: 16,
+      paddingHorizontal: 18,
       paddingVertical: 12,
-      gap: 8,
+      gap: 10,
     },
     listContainer: {
-      paddingVertical: 12,
+      paddingHorizontal: 18,
+      paddingVertical: 8,
+      paddingBottom: 20,
+    },
+    listTitle: {
+      fontSize: 18,
+      fontWeight: '800',
+      color: isDark ? '#edf2ff' : '#191730',
+      marginBottom: 12,
+      marginHorizontal: 18,
     },
   });
 
@@ -203,19 +287,39 @@ export default function HomeScreen() {
     return (
       <View style={styles.container}>
         <ScreenHeader 
-          title="Sessions"
-          subtitle={`${sessionsList.length} total sessions`}
+          title="TrajectAI"
+          subtitle={`${sessionsList.length} saved sessions`}
         />
+        <View style={styles.heroCard}>
+          <View style={styles.heroTopRow}>
+            <View style={styles.miniBadge}>
+              <Text style={styles.miniBadgeText}>Live</Text>
+            </View>
+            <Ionicons name="pulse" size={18} color={isDark ? '#dfe7ff' : '#5b50d4'} />
+          </View>
+          <Text style={styles.heroTitle}>Track smarter</Text>
+          <Text style={styles.heroSub}>Capture routes with real GPS and AI-assisted prediction when accuracy drops.</Text>
+          <View style={styles.statRow}>
+            <View style={styles.statTile}>
+              <Text style={styles.statLabel}>Trips</Text>
+              <Text style={styles.statValue}>0</Text>
+            </View>
+            <View style={styles.statTile}>
+              <Text style={styles.statLabel}>AI</Text>
+              <Text style={styles.statValue}>Ready</Text>
+            </View>
+          </View>
+        </View>
         <View style={styles.emptyContainer}>
           <Ionicons 
-            name="list" 
+            name="location-outline" 
             size={64} 
-            color={isDark ? '#4b5563' : '#d1d5db'}
+            color={isDark ? '#7a8bb8' : '#d8d4ff'}
             style={styles.emptyIcon}
           />
-          <Text style={styles.emptyText}>No sessions yet</Text>
+          <Text style={styles.emptyText}>No journeys yet</Text>
           <Text style={styles.emptySubtext}>
-            Create your first tracking session to get started
+            Start your first tracking session to generate a live route and AI forecast.
           </Text>
           <PrimaryButton
             label="Create Session"
@@ -230,9 +334,31 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <ScreenHeader 
-        title="Sessions"
-        subtitle={`${sessionsList.length} total sessions`}
+        title="TrajectAI"
+        subtitle={`${sessionsList.length} saved sessions`}
       />
+      <View style={styles.heroCard}>
+        <View style={styles.heroTopRow}>
+          <View style={styles.miniBadge}>
+            <Text style={styles.miniBadgeText}>Hybrid</Text>
+          </View>
+          <Ionicons name="navigate" size={18} color={isDark ? '#dfe7ff' : '#5b50d4'} />
+        </View>
+        <Text style={styles.heroTitle}>Your routes</Text>
+        <Text style={styles.heroSub}>Track every trip, compare GPS and AI predictions, and export clean session data.</Text>
+        <View style={styles.statRow}>
+          <View style={styles.statTile}>
+            <Text style={styles.statLabel}>Sessions</Text>
+            <Text style={styles.statValue}>{sessionsList.length}</Text>
+          </View>
+          <View style={styles.statTile}>
+            <Text style={styles.statLabel}>AI</Text>
+            <Text style={styles.statValue}>On</Text>
+          </View>
+        </View>
+      </View>
+
+      <Text style={styles.listTitle}>Recent activity</Text>
       <FlatList
         data={sessionsList}
         renderItem={renderSessionItem}
@@ -242,7 +368,7 @@ export default function HomeScreen() {
           <RefreshControl 
             refreshing={refreshing} 
             onRefresh={onRefresh}
-            tintColor={isDark ? '#10b981' : '#059669'}
+            tintColor={isDark ? '#7c6cff' : '#6c63ff'}
           />
         }
       />

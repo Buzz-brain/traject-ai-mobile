@@ -6,11 +6,19 @@ import { useTheme } from '../../../lib/store/themeContext';
 export default function TabsLayout() {
   const { isDark } = useTheme();
 
-  const activeTint = isDark ? '#10b981' : '#059669';
-  const inactiveTint = isDark ? '#6b7280' : '#9ca3af';
+  const activeTint = '#6c63ff';
+  const inactiveTint = isDark ? '#9aa5b5' : '#8389a7';
   const tabBarStyle = {
-    backgroundColor: isDark ? '#0b1220' : '#ffffff',
-    borderTopColor: isDark ? '#1f2937' : '#e5e7eb',
+    backgroundColor: isDark ? '#121826' : '#f8f7ff',
+    borderTopColor: isDark ? '#1a2233' : '#eceaff',
+    height: 74,
+    paddingBottom: 10,
+    paddingTop: 8,
+    shadowColor: '#4d44c6',
+    shadowOpacity: 0.12,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: -6 },
+    elevation: 12,
   };
 
   return (
