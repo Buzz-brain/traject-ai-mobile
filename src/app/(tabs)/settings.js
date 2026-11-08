@@ -33,13 +33,14 @@ function SectionHeader({ title }) {
   return (
     <Text
       style={{
-        fontSize: 12,
-        fontWeight: '700',
-        color: isDark ? '#9ca3af' : '#6b7280',
+        fontSize: 11,
+        fontWeight: '800',
+        color: isDark ? '#b3c3ef' : '#5b50d4',
         marginHorizontal: 16,
         marginTop: 20,
         marginBottom: 8,
         textTransform: 'uppercase',
+        letterSpacing: 1.2,
       }}
     >
       {title}

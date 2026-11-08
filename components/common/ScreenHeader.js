@@ -28,8 +28,8 @@ export function ScreenHeader({
   const styles = StyleSheet.create({
     header: {
       paddingHorizontal: 18,
-      paddingTop: 24,
-      paddingBottom: 16,
+      paddingTop: 30,
+      paddingBottom: 18,
       backgroundColor: isDark ? '#0f1522' : '#f9f8ff',
       borderBottomWidth: 0,
       ...style,
@@ -44,7 +44,9 @@ export function ScreenHeader({
     subtitle: {
       fontSize: 13,
       color: isDark ? '#aab4c7' : '#595b75',
-      fontWeight: '600',
+      fontWeight: '700',
+      letterSpacing: 0.5,
+      textTransform: 'uppercase',
     },
   });
 
