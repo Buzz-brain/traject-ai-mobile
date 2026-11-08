@@ -226,12 +226,25 @@ export default function TrackerScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        <View style={[styles.heroHeader, { backgroundColor: isDark ? '#171d2f' : '#f3eeff', borderColor }]}>
+          <View>
+            <Text style={[styles.headerEyebrow, { color: mutedColor }]}>Live session</Text>
+            <Text style={[styles.headerTitle, { color: statColor }]}>
+              {mode === 'gps_only' ? 'GPS tracking' : mode === 'ai_only' ? 'AI prediction' : 'Hybrid tracking'}
+            </Text>
+          </View>
+          <View style={[styles.modePill, { backgroundColor: mode === 'gps_only' ? '#3b82f6' : mode === 'ai_only' ? '#8b5cf6' : '#10b981' }]}>
+            <Text style={styles.modePillText}>{mode === 'gps_only' ? 'GPS' : mode === 'ai_only' ? 'AI' : 'Hybrid'}</Text>
+          </View>
+        </View>
+
         {/* Speed Gauge */}
         <View style={styles.speedSection}>
+          <Text style={[styles.speedLabel, { color: mutedColor }]}>Current speed</Text>
           <Text style={[styles.speedValue, { color: speedColor }]}>
             {speed.toFixed(1)}
           </Text>
-          <Text style={[styles.speedUnit, { color: mutedColor }]}>meters per second</Text>
+          <Text style={[styles.speedUnit, { color: mutedColor }]}>m/s</Text>
         </View>
 
         {/* Distance & Duration */}
@@ -435,22 +448,64 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 120,
   },
+  heroHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    marginBottom: 10,
+  },
+  headerEyebrow: {
+    fontSize: 10,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    letterSpacing: -0.6,
+  },
+  modePill: {
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  modePillText: {
+    color: '#ffffff',
+    fontSize: 11,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
   speedSection: {
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 10,
+  },
+  speedLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 4,
   },
   speedValue: {
-    fontSize: 64,
-    fontWeight: '700',
+    fontSize: 58,
+    fontWeight: '800',
     fontVariant: ['tabular-nums'],
     letterSpacing: -2,
+    lineHeight: 62,
   },
   speedUnit: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 1.5,
-    marginTop: -8,
+    marginTop: -4,
   },
   metricRow: {
     flexDirection: 'row',
