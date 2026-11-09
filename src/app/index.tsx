@@ -134,12 +134,12 @@ export default function SplashScreen() {
   if (index === 1) {
     return (
       <LinearGradient
-        colors={['#070b14', '#0f1526', '#120d24']}
-        start={{ x: 0.2, y: 0.2 }}
-        end={{ x: 0.8, y: 1 }}
+        colors={['#f3f1ff', '#ece9ff', '#f8f5ff']}
+        start={{ x: 0.1, y: 0.2 }}
+        end={{ x: 0.9, y: 1 }}
         style={styles.background}
       >
-        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={styles.onboardingTwoSafeArea}>
           <View style={styles.onboardingTwoScreen}>
             <Image
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     fontFamily: appDisplayFont,
     fontSize: 34,
     fontWeight: '800',
-    color: '#f4f1ff',
+    color: '#1f1b3b',
     textAlign: 'center',
     letterSpacing: -1.2,
     lineHeight: 40,
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     fontFamily: appDisplayFont,
     fontSize: 17,
     fontWeight: '500',
-    color: '#cfcdf7',
+    color: '#4a4a64',
     textAlign: 'center',
     lineHeight: 24,
     letterSpacing: -0.15,
