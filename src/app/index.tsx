@@ -90,15 +90,11 @@ export default function SplashScreen() {
             <View style={styles.onboardingOneBlob} />
 
             <View style={styles.onboardingOneScene}>
-              <View style={styles.phoneWrap}>
-                <View style={styles.phoneFrame}>
-                  <Image
-                    source={require('../../onboarding-img-one.png')}
-                    style={styles.phoneImage}
-                    contentFit="cover"
-                  />
-                </View>
-              </View>
+              <Image
+                source={require('../../onboarding-img-one.png')}
+                style={styles.phoneImage}
+                contentFit="cover"
+              />
 
               <View style={styles.satelliteWrap}>
                 <View style={styles.satelliteBody}>
@@ -278,29 +274,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  phoneWrap: {
-    position: 'relative',
+  phoneImage: {
+    width: 330,
+    height: 440,
+    borderRadius: 0,
+    overflow: 'visible',
+    backgroundColor: 'transparent',
     zIndex: 2,
     transform: [{ rotate: '6deg' }],
-  },
-  phoneFrame: {
-    width: 290,
-    height: 420,
-    borderRadius: 32,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    padding: 0,
-    shadowColor: '#4d3e90',
-    shadowOpacity: 0.15,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 14 },
-    elevation: 10,
-    borderWidth: 0,
-  },
-  phoneImage: {
-    flex: 1,
-    borderRadius: 32,
-    overflow: 'hidden',
-    backgroundColor: '#f3f3f6',
   },
   satelliteWrap: {
     position: 'absolute',
