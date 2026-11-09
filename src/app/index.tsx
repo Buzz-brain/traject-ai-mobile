@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 
@@ -63,47 +64,15 @@ export default function SplashScreen() {
 
   if (phase === 'splash') {
     return (
-      <LinearGradient
-        colors={['#f4f0ff', '#ebecff', '#f7f4ff']}
-        start={{ x: 0.2, y: 0.1 }}
-        end={{ x: 0.8, y: 1 }}
-        style={styles.background}
-      >
+      <View style={styles.splashScreen}>
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
-        <SafeAreaView style={styles.safeArea}>
-          <View style={styles.splashFrame}>
-            <View style={styles.splashCard}>
-              <View style={styles.logoWrap}>
-                <View style={styles.logoCircle}>
-                  <View style={styles.logoArc} />
-                  <View style={styles.logoPin} />
-                  <View style={styles.logoTail} />
-                </View>
-              </View>
-
-              <Text style={styles.splashTitle}>TrajectAI</Text>
-
-              <View style={styles.splashTaglineWrap}>
-                <Text style={styles.splashTagline}>Track Smarter.</Text>
-                <Text style={styles.splashTagline}>Predict Further.</Text>
-              </View>
-
-              <View style={styles.skylineWrap}>
-                <View style={styles.skyline}>
-                  <View style={[styles.building, styles.buildingTall1]} />
-                  <View style={[styles.building, styles.buildingShort1]} />
-                  <View style={[styles.building, styles.buildingMid1]} />
-                  <View style={[styles.building, styles.buildingTall2]} />
-                  <View style={[styles.building, styles.buildingWide]} />
-                  <View style={[styles.building, styles.buildingShort2]} />
-                </View>
-              </View>
-
-              <View style={styles.splashFooterDot} />
-            </View>
-          </View>
-        </SafeAreaView>
-      </LinearGradient>
+        <Image
+          source={require('../../assets/images/splash-screen.png')}
+          style={StyleSheet.absoluteFill}
+          contentFit="cover"
+          contentPosition="bottom"
+        />
+      </View>
     );
   }
 
@@ -206,6 +175,10 @@ export default function SplashScreen() {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+  },
+  splashScreen: {
+    flex: 1,
+    backgroundColor: '#F1EFFD',
   },
   safeArea: {
     flex: 1,
