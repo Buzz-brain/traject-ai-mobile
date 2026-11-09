@@ -371,6 +371,7 @@ const styles = StyleSheet.create({
   },
   onboardingOneDescription: {
     marginTop: 10,
+    marginBottom: 28,
     fontFamily: appDisplayFont,
     fontSize: 17,
     fontWeight: '500',
