@@ -117,7 +117,7 @@ export default function SplashScreen() {
               <Text style={styles.onboardingOneNextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'} {'→'}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={skipToEnd}>
+            <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
               <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
           </View>
