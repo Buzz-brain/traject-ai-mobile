@@ -63,6 +63,11 @@ export default function SplashScreen() {
     router.replace('/(tabs)');
   };
 
+  const secondOnboardingCopy = {
+    title: 'AI-Powered\nPrediction',
+    description: 'Keeping your route accurate\nwhen GPS is weak or unavailable.',
+  };
+
   const skipToEnd = () => {
     router.replace('/(tabs)');
   };
@@ -120,6 +125,53 @@ export default function SplashScreen() {
             <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
               <Text style={styles.skipText}>Skip</Text>
             </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+    );
+  }
+
+  if (index === 1) {
+    return (
+      <LinearGradient
+        colors={['#070b14', '#0f1526', '#120d24']}
+        start={{ x: 0.2, y: 0.2 }}
+        end={{ x: 0.8, y: 1 }}
+        style={styles.background}
+      >
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+        <SafeAreaView style={styles.onboardingTwoSafeArea}>
+          <View style={styles.onboardingTwoScreen}>
+            <Image
+              source={require('../../onboarding-img-two.png')}
+              style={styles.onboardingTwoImage}
+              contentFit="contain"
+            />
+
+            <Text style={styles.onboardingTwoTitle}>{secondOnboardingCopy.title}</Text>
+            <Text style={styles.onboardingTwoDescription}>{secondOnboardingCopy.description}</Text>
+
+            <View style={styles.dotRow}>
+              {slides.map((_, dotIndex) => (
+                <View
+                  key={dotIndex}
+                  style={[
+                    styles.dot,
+                    dotIndex === index && styles.dotActive,
+                  ]}
+                />
+              ))}
+            </View>
+
+            <View style={styles.onboardingTwoActions}>
+              <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
+                <Text style={styles.skipText}>Skip</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.onboardingTwoNextButton} onPress={goNext} activeOpacity={0.9}>
+                <Text style={styles.onboardingTwoNextText}>Next →</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </SafeAreaView>
       </LinearGradient>
@@ -243,6 +295,71 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 26,
     position: 'relative',
+  },
+  onboardingTwoSafeArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  onboardingTwoScreen: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 26,
+    paddingBottom: 30,
+  },
+  onboardingTwoImage: {
+    width: Math.min(width * 0.86, 420),
+    height: Math.min(width * 0.62, 310),
+    marginBottom: 6,
+  },
+  onboardingTwoTitle: {
+    fontFamily: appDisplayFont,
+    fontSize: 34,
+    fontWeight: '800',
+    color: '#f4f1ff',
+    textAlign: 'center',
+    letterSpacing: -1.2,
+    lineHeight: 40,
+    marginBottom: 8,
+  },
+  onboardingTwoDescription: {
+    fontFamily: appDisplayFont,
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#cfcdf7',
+    textAlign: 'center',
+    lineHeight: 24,
+    letterSpacing: -0.15,
+    marginBottom: 18,
+  },
+  onboardingTwoActions: {
+    width: 255,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 8,
+  },
+  onboardingTwoNextButton: {
+    width: 150,
+    paddingVertical: 16,
+    borderRadius: 18,
+    backgroundColor: '#6e5afc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#5f49ee',
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+  },
+  onboardingTwoNextText: {
+    fontFamily: appDisplayFont,
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#ffffff',
+    letterSpacing: -0.2,
   },
   onboardingOneBlob: {
     position: 'absolute',
