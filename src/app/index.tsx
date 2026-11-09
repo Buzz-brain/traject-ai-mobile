@@ -419,6 +419,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#1d1b35',
     opacity: 0.8,
   },
+  signalDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#1d1b35',
+    opacity: 0.8,
+  },
   battery: {
     width: 18,
     height: 10,
