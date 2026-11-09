@@ -175,7 +175,7 @@ export default function SessionDetailScreen() {
           <StatGrid stats={statData} />
         </View>
 
-        <Card style={[styles.card, styles.timelineCard, { backgroundColor: isDark ? '#121b2d' : '#ffffff', borderColor: isDark ? '#1f2b3d' : '#eee9ff' }]}>
+        <Card style={[styles.card, styles.timelineCard, { backgroundColor: isDark ? '#121b2d' : '#ffffff', borderColor: isDark ? '#1f2b3d' : '#eee9ff', borderRadius: 24 }]}>
           <Text style={[styles.sectionTitle, { color: isDark ? '#edf2ff' : '#17162a' }]}>Speed / Accuracy Timeline</Text>
           <View style={[styles.timelinePlaceholder, { backgroundColor: isDark ? '#1a2332' : '#f2f1ff' }]} />
         </Card>
@@ -273,8 +273,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   kpiRow: {
-    marginBottom: 14,
-  },
+    marginBottom: 14,    marginTop: 6,  },
   timelineCard: {
     padding: 14,
     borderRadius: 24,

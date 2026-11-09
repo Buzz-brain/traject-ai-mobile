@@ -509,11 +509,16 @@ const styles = StyleSheet.create({
   },
   metricRow: {
     flexDirection: 'row',
-    borderRadius: 18,
+    borderRadius: 20,
     borderWidth: 1,
     paddingVertical: 16,
     paddingHorizontal: 12,
     marginTop: 8,
+    shadowColor: '#4d44c6',
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
   },
   metricItem: {
     flex: 1,

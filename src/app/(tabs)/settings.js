@@ -167,7 +167,7 @@ export default function SettingsScreen() {
       paddingHorizontal: 16,
       paddingVertical: 14,
       backgroundColor: isDark ? '#151d2b' : '#ffffff',
-      borderRadius: 18,
+      borderRadius: 20,
       borderWidth: 1,
       borderColor: isDark ? '#21314a' : '#ece7ff',
       shadowColor: '#4d44c6',
@@ -218,6 +218,12 @@ export default function SettingsScreen() {
           label="GPS Accuracy"
           value="High"
           onPress={() => Alert.alert('GPS Accuracy', 'High accuracy mode is enabled')}
+        />
+        <SettingRow
+          icon="options"
+          label="Prediction Sensitivity"
+          value="Medium"
+          onPress={() => Alert.alert('Prediction Sensitivity', 'Medium sensitivity enabled')}
         />
         <SettingRow
           icon="cloud"

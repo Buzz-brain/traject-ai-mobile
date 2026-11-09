@@ -23,7 +23,7 @@ export default function SplashScreen() {
 
   return (
     <LinearGradient
-      colors={['#efeffd', '#dfe1ff', '#e9e6ff']}
+      colors={['#f1f0ff', '#e8e5ff', '#efe9ff']}
       start={{ x: 0.15, y: 0.1 }}
       end={{ x: 0.9, y: 1 }}
       style={styles.background}
@@ -32,7 +32,7 @@ export default function SplashScreen() {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.deviceFrame}>
           <LinearGradient
-            colors={['rgba(255,255,255,0.72)', 'rgba(255,255,255,0.46)']}
+            colors={['rgba(255,255,255,0.7)', 'rgba(255,255,255,0.42)']}
             style={styles.glassShell}
           >
             <View style={styles.statusBar}>
@@ -54,7 +54,7 @@ export default function SplashScreen() {
             </View>
 
             <Text style={styles.brand}>TrajectAI</Text>
-            <Text style={styles.tagline}>Track Smarter.{'\n'}Predict Further.</Text>
+            <Text style={styles.tagline}>{'Track Smarter.\nPredict Further.'}</Text>
 
             <View style={styles.cityScene}>
               <View style={styles.skyline}>
@@ -99,6 +99,8 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     shadowOffset: { width: 0, height: 10 },
     elevation: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
   glassShell: {
     flex: 1,
@@ -203,27 +205,34 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   cityScene: {
-    marginTop: 28,
-    height: 120,
+    marginTop: 26,
+    height: 128,
     justifyContent: 'flex-end',
     overflow: 'hidden',
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
+    backgroundColor: 'rgba(124,94,255,0.06)',
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
   },
   skyline: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    paddingHorizontal: 6,
+    paddingHorizontal: 10,
     paddingBottom: 0,
-    height: 120,
-    backgroundColor: 'transparent',
+    height: 128,
+    background: 'transparent',
   },
   building: {
     backgroundColor: '#7d6ef8',
-    borderRadius: 4,
-    opacity: 0.9,
+    borderRadius: 5,
+    opacity: 0.92,
     marginRight: 3,
+    shadowColor: '#5f51d9',
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
   },
   buildingTall: {
     width: 24,
@@ -252,7 +261,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 18,
     gap: 10,
   },
   dot: {
