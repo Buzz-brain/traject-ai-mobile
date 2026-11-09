@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   phoneImage: {
     width: 330,
-    height: 440,
+    aspectRatio: 1351 / 1164,
     borderRadius: 0,
     overflow: 'visible',
     backgroundColor: 'transparent',
