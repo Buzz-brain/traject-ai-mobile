@@ -1083,6 +1083,12 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     paddingHorizontal: 4,
   },
+  skipButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   skipText: {
     fontFamily: appDisplayFont,
     fontSize: 14,
