@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { LinearGradient } from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
