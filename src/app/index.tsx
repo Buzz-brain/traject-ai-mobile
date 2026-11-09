@@ -163,15 +163,13 @@ export default function SplashScreen() {
               ))}
             </View>
 
-            <View style={styles.onboardingTwoActions}>
-              <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
-                <Text style={styles.skipText}>Skip</Text>
-              </TouchableOpacity>
+            <TouchableOpacity style={styles.onboardingTwoNextButton} onPress={goNext} activeOpacity={0.9}>
+              <Text style={styles.onboardingTwoNextText}>Next →</Text>
+            </TouchableOpacity>
 
-              <TouchableOpacity style={styles.onboardingTwoNextButton} onPress={goNext} activeOpacity={0.9}>
-                <Text style={styles.onboardingTwoNextText}>Next →</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
+              <Text style={styles.skipText}>Skip</Text>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </LinearGradient>
