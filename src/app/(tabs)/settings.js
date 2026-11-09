@@ -36,7 +36,7 @@ function SectionHeader({ title }) {
         fontSize: 11,
         fontWeight: '800',
         color: isDark ? '#b3c3ef' : '#5b50d4',
-        marginHorizontal: 16,
+        marginHorizontal: 18,
         marginTop: 20,
         marginBottom: 8,
         textTransform: 'uppercase',
@@ -58,12 +58,16 @@ function SettingRow({ icon, label, value, onPress, isSwitch = false, switchValue
     <Card
       onPress={isSwitch ? null : onPress}
       style={{
-        marginHorizontal: 16,
+        marginHorizontal: 18,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 14,
         borderRadius: 18,
+        borderWidth: 1,
+        borderColor: isDark ? '#1f2d43' : '#e3defd',
+        backgroundColor: isDark ? '#151d2b' : '#ffffff',
+        marginBottom: 10,
       }}
     >
       {icon && (
@@ -158,14 +162,19 @@ export default function SettingsScreen() {
       backgroundColor: isDark ? '#0c1220' : '#f5f3ff',
     },
     infoBox: {
-      marginHorizontal: 16,
-      marginTop: 16,
+      marginHorizontal: 18,
+      marginTop: 18,
       paddingHorizontal: 16,
       paddingVertical: 14,
       backgroundColor: isDark ? '#151d2b' : '#ffffff',
       borderRadius: 18,
       borderWidth: 1,
       borderColor: isDark ? '#21314a' : '#ece7ff',
+      shadowColor: '#4d44c6',
+      shadowOpacity: 0.08,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: 6 },
+      elevation: 4,
     },
     infoText: {
       fontSize: 12,

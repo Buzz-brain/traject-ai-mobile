@@ -7,17 +7,18 @@ export default function TabsLayout() {
   const { isDark } = useTheme();
 
   const activeTint = '#6c63ff';
-  const inactiveTint = isDark ? '#9aa5b5' : '#8389a7';
+  const inactiveTint = isDark ? '#9aa5b5' : '#8890b4';
   const tabBarStyle = {
     backgroundColor: isDark ? '#121826' : '#f8f7ff',
-    borderTopColor: isDark ? '#1a2233' : '#eceaff',
+    borderTopColor: isDark ? '#1a2233' : '#eae3ff',
+    borderTopWidth: 1,
     height: 74,
     paddingBottom: 10,
     paddingTop: 8,
     shadowColor: '#4d44c6',
-    shadowOpacity: 0.12,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.14,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: -8 },
     elevation: 12,
   };
 
@@ -28,6 +29,15 @@ export default function TabsLayout() {
         tabBarActiveTintColor: activeTint,
         tabBarInactiveTintColor: inactiveTint,
         tabBarStyle,
+        tabBarLabelStyle: {
+          fontWeight: '700',
+          fontSize: 11,
+          letterSpacing: 0.2,
+        },
+        tabBarItemStyle: {
+          borderRadius: 14,
+          marginHorizontal: 6,
+        },
       }}
     >
       <Tabs.Screen
