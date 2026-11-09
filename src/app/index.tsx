@@ -66,59 +66,69 @@ export default function SplashScreen() {
 
     return (
       <LinearGradient
-        colors={['#f4f1ff', '#ededff', '#f5f3ff']}
+        colors={['#f6f2ff', '#eef1ff', '#f7f5ff']}
         start={{ x: 0.15, y: 0.1 }}
-        end={{ x: 0.9, y: 1 }}
+        end={{ x: 0.85, y: 1 }}
         style={styles.background}
       >
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={styles.safeArea}>
-          <View style={styles.heroShell}>
-            <LinearGradient
-              colors={['rgba(255,255,255,0.68)', 'rgba(255,255,255,0.26)']}
-              style={[
-                styles.heroGlass,
-                isCompact ? styles.heroGlassCompact : null,
-              ]}
-            >
-              <View style={[styles.heroContent, isCompact ? styles.heroContentCompact : null]}>
-                <View style={[styles.heroTextBlock, isCompact ? styles.heroTextBlockCompact : null]}>
-                  <View style={styles.splashBrandBlock}>
-                    <View style={styles.splashLogoWrap}>
-                      <View style={styles.splashLogoCircle}>
-                        <View style={styles.splashLogoArc} />
-                        <View style={styles.splashPinHead} />
-                        <View style={styles.splashPinTail} />
-                      </View>
-                    </View>
-
-                    <View style={styles.splashTextWrap}>
-                      <Text style={styles.brand}>TrajectAI</Text>
-                      <Text style={styles.tagline}>{'Track Smarter.\nPredict Further.'}</Text>
-                    </View>
-                  </View>
-
-                  <View style={styles.splashBottomBar}>
-                    <View style={styles.splashBackCircle} />
-                    <TouchableOpacity style={styles.splashNextButton} onPress={goNext} activeOpacity={0.9}>
-                      <Text style={styles.nextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
-                    </TouchableOpacity>
+          <View style={styles.heroPage}>
+            <View style={[styles.heroGrid, isCompact && styles.heroGridCompact]}>
+              <View style={[styles.heroTextBlock, isCompact && styles.heroTextBlockCompact]}>
+                <View style={styles.brandMarkWrap}>
+                  <View style={styles.brandMark}>
+                    <View style={styles.brandOrbit} />
+                    <View style={styles.brandPin} />
+                    <View style={styles.brandPinDot} />
                   </View>
                 </View>
 
-                <View style={[styles.heroVisual, isCompact ? styles.heroVisualCompact : null]}>
-                  <View style={styles.cityScene}>
-                    <View style={styles.skyline}>
-                      <View style={[styles.building, styles.buildingTall]} />
-                      <View style={[styles.building, styles.buildingMid]} />
-                      <View style={[styles.building, styles.buildingShort]} />
-                      <View style={[styles.building, styles.buildingTall2]} />
-                      <View style={[styles.building, styles.buildingWide]} />
+                <Text style={styles.brand}>TrajectAI</Text>
+                <Text style={styles.tagline}>{'Track smarter.\nPredict further.'}</Text>
+
+                <View style={styles.heroActions}>
+                  <View style={styles.splashBackCircle} />
+                  <TouchableOpacity style={styles.splashNextButton} onPress={goNext} activeOpacity={0.9}>
+                    <Text style={styles.nextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View style={[styles.heroVisualPanel, isCompact && styles.heroVisualPanelCompact]}>
+                <View style={styles.visualCard}>
+                  <View style={styles.visualHeader}>
+                    <Text style={styles.visualTime}>9:41</Text>
+                    <View style={styles.visualStatus}>
+                      <View style={styles.signal} />
+                      <View style={styles.signal} />
+                      <View style={styles.signal} />
+                      <View style={styles.battery} />
                     </View>
+                  </View>
+
+                  <View style={styles.mapPreview}>
+                    <View style={styles.mapGrid} />
+                    <View style={styles.routePath} />
+                    <View style={styles.routeNodeA} />
+                    <View style={styles.routeNodeB} />
+                    <View style={styles.routeBadge} />
+                    <View style={styles.cityGlow} />
+                    <View style={styles.mapMetricRow}>
+                      <View style={styles.metricPill} />
+                      <View style={styles.metricPillShort} />
+                    </View>
+                  </View>
+
+                  <View style={styles.navBar}>
+                    <View style={styles.navDot} />
+                    <View style={styles.navDot} />
+                    <View style={styles.navDot} />
+                    <View style={styles.navDot} />
                   </View>
                 </View>
               </View>
-            </LinearGradient>
+            </View>
           </View>
         </SafeAreaView>
       </LinearGradient>
@@ -230,353 +240,290 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  heroShell: {
+  heroPage: {
+    flex: 1,
     width: '100%',
-    maxWidth: 1280,
-    height: '100%',
     paddingHorizontal: 28,
     paddingVertical: 20,
+    justifyContent: 'center',
   },
-  heroGlass: {
-    flex: 1,
-    borderRadius: 34,
-    overflow: 'hidden',
-    padding: 24,
-    backgroundColor: 'rgba(255,255,255,0.42)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.38)',
-    shadowColor: '#4c3d9f',
-    shadowOpacity: 0.12,
-    shadowRadius: 30,
-    shadowOffset: { width: 0, height: 12 },
-    elevation: 10,
-  },
-  heroGlassCompact: {
-    padding: 18,
-    borderRadius: 26,
-  },
-  heroContent: {
+  heroGrid: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    maxWidth: 1280,
+    width: '100%',
+    marginHorizontal: 'auto',
   },
-  heroContentCompact: {
+  heroGridCompact: {
     flexDirection: 'column',
     justifyContent: 'center',
+    gap: 18,
   },
   heroTextBlock: {
     flex: 1,
-    maxWidth: 480,
-    paddingRight: 20,
+    maxWidth: 500,
+    paddingRight: 18,
+    justifyContent: 'center',
   },
   heroTextBlockCompact: {
     maxWidth: '100%',
     paddingRight: 0,
     alignItems: 'center',
+    width: '100%',
   },
-  splashBrandBlock: {
-    marginTop: 0,
-    marginBottom: 28,
+  brandMarkWrap: {
+    marginBottom: 18,
     alignItems: 'flex-start',
   },
-  splashLogoWrap: {
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  splashLogoCircle: {
-    width: 94,
-    height: 94,
-    borderRadius: 50,
-    backgroundColor: '#f6f2ff',
+  brandMark: {
+    width: 92,
+    height: 92,
+    borderRadius: 46,
+    backgroundColor: '#f4efff',
     borderWidth: 2,
-    borderColor: '#cfc7ff',
+    borderColor: '#d4caff',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    overflow: 'visible',
   },
-  splashLogoArc: {
+  brandOrbit: {
     position: 'absolute',
-    width: 66,
-    height: 66,
-    borderRadius: 42,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     borderWidth: 5,
-    borderColor: '#7b66ff',
-    transform: [{ rotate: '30deg' }],
-    opacity: 0.8,
+    borderColor: '#7b67ff',
+    transform: [{ rotate: '24deg' }],
+    opacity: 0.9,
   },
-  splashPinHead: {
+  brandPin: {
     position: 'absolute',
     width: 18,
     height: 18,
     borderRadius: 9,
-    backgroundColor: '#7b66ff',
+    backgroundColor: '#7b67ff',
     borderWidth: 3,
     borderColor: '#ffffff',
-    left: 20,
-    top: 24,
+    top: 27,
+    left: 22,
     zIndex: 2,
   },
-  splashPinTail: {
+  brandPinDot: {
     position: 'absolute',
     width: 10,
     height: 10,
-    borderRadius: 8,
-    backgroundColor: '#7b66ff',
+    borderRadius: 5,
+    backgroundColor: '#7b67ff',
     transform: [{ rotate: '45deg' }],
     left: 35,
-    top: 44,
-    opacity: 0.7,
-  },
-  splashTextWrap: {
-    alignItems: 'flex-start',
+    top: 43,
+    opacity: 0.8,
   },
   brand: {
     marginTop: 0,
-    fontSize: 52,
+    fontSize: 56,
     fontWeight: '800',
-    color: '#1d1a3a',
+    color: '#18173a',
     textAlign: 'left',
     letterSpacing: -1.8,
   },
   tagline: {
     marginTop: 8,
-    fontSize: 18,
+    fontSize: 21,
     fontWeight: '600',
-    color: '#4d4c67',
+    color: '#474763',
     textAlign: 'left',
-    lineHeight: 24,
+    lineHeight: 28,
   },
-  splashBottomBar: {
+  heroActions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 24,
     width: '100%',
+    maxWidth: 260,
   },
   splashBackCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     borderWidth: 2,
-    borderColor: '#d5d0ff',
-    backgroundColor: 'rgba(255,255,255,0.12)',
+    borderColor: '#d7d1ff',
+    backgroundColor: 'rgba(255,255,255,0.14)',
   },
   splashNextButton: {
-    backgroundColor: '#6c63ff',
+    backgroundColor: '#6a5afc',
     paddingHorizontal: 28,
     paddingVertical: 14,
     borderRadius: 18,
-    shadowColor: '#5d51ee',
-    shadowOpacity: 0.2,
+    shadowColor: '#5d4cf2',
+    shadowOpacity: 0.18,
     shadowRadius: 12,
     shadowOffset: { width: 0, height: 8 },
     elevation: 6,
-    minWidth: 132,
+    minWidth: 140,
     alignItems: 'center',
   },
-  heroVisual: {
+  heroVisualPanel: {
     flex: 1,
-    height: '100%',
-    minHeight: 380,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 420,
   },
-  heroVisualCompact: {
+  heroVisualPanelCompact: {
     width: '100%',
-    minHeight: 260,
-    marginTop: 20,
+    minHeight: 280,
   },
-  cityScene: {
+  visualCard: {
     width: '100%',
     maxWidth: 520,
-    height: 220,
-    justifyContent: 'flex-end',
-    overflow: 'hidden',
-    borderRadius: 28,
-    backgroundColor: 'rgba(124,94,255,0.06)',
+    height: 430,
+    borderRadius: 34,
+    backgroundColor: 'rgba(255,255,255,0.38)',
     borderWidth: 1,
-    borderColor: 'rgba(124,94,255,0.08)',
+    borderColor: 'rgba(190,181,255,0.45)',
+    paddingHorizontal: 18,
+    paddingTop: 16,
+    paddingBottom: 14,
+    shadowColor: '#4e3eaf',
+    shadowOpacity: 0.12,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 8,
   },
-  statusBar: {
+  visualHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 2,
+    paddingHorizontal: 4,
     marginBottom: 12,
   },
-  time: {
+  visualTime: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#1f2141',
+    color: '#1e1b39',
     letterSpacing: 0.2,
   },
-  statusIcons: {
+  visualStatus: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
   },
-  signalDot: {
+  signal: {
     width: 4,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#1f2141',
+    backgroundColor: '#1d1b35',
     opacity: 0.8,
   },
   battery: {
     width: 18,
     height: 10,
     borderRadius: 3,
-    borderWidth: 1.3,
-    borderColor: '#1f2141',
+    borderWidth: 1.4,
+    borderColor: '#1d1b35',
     backgroundColor: 'transparent',
   },
-  splashBrandBlock: {
-    marginTop: 18,
-    marginBottom: 12,
-    alignItems: 'flex-start',
-    paddingLeft: 4,
-  },
-  splashLogoWrap: {
-    alignItems: 'flex-start',
-    marginLeft: 0,
-    marginBottom: 12,
-  },
-  splashLogoCircle: {
-    width: 92,
-    height: 92,
-    borderRadius: 50,
-    backgroundColor: '#f6f2ff',
-    borderWidth: 2,
-    borderColor: '#cfc7ff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  mapPreview: {
+    flex: 1,
+    borderRadius: 28,
+    backgroundColor: '#f2f9f5',
+    borderWidth: 1,
+    borderColor: 'rgba(108, 89, 226, 0.12)',
+    overflow: 'hidden',
     position: 'relative',
-    overflow: 'visible',
   },
-  splashLogoArc: {
+  mapGrid: {
     position: 'absolute',
-    width: 62,
-    height: 62,
-    borderWidth: 5,
-    borderColor: '#7b66ff',
-    borderTopWidth: 5,
-    borderRightWidth: 5,
-    borderBottomWidth: 0,
-    borderLeftWidth: 5,
-    borderRadius: 42,
-    transform: [{ rotate: '30deg' }],
-    opacity: 0.8,
+    inset: 0,
+    backgroundColor: 'rgba(110, 176, 137, 0.18)',
   },
-  splashPinHead: {
+  routePath: {
+    position: 'absolute',
+    width: 220,
+    height: 140,
+    borderWidth: 5,
+    borderColor: '#5a4ae5',
+    borderRadius: 80,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0,
+    transform: [{ rotate: '-22deg' }],
+    left: 90,
+    top: 130,
+  },
+  routeNodeA: {
     position: 'absolute',
     width: 18,
     height: 18,
     borderRadius: 9,
-    backgroundColor: '#7b66ff',
-    borderWidth: 3,
-    borderColor: '#ffffff',
-    zIndex: 2,
-    left: 20,
-    top: 22,
+    backgroundColor: '#5a4ae5',
+    top: 190,
+    left: 110,
   },
-  splashPinTail: {
+  routeNodeB: {
     position: 'absolute',
-    width: 10,
-    height: 10,
-    borderRadius: 8,
-    backgroundColor: '#7b66ff',
-    transform: [{ rotate: '45deg' }],
-    left: 34,
-    top: 42,
-    opacity: 0.7,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#3ce0a5',
+    top: 120,
+    right: 118,
+    borderWidth: 4,
+    borderColor: '#edfef6',
   },
-  splashTextWrap: {
-    alignItems: 'flex-start',
+  routeBadge: {
+    position: 'absolute',
+    width: 90,
+    height: 52,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.78)',
+    top: 20,
+    right: 24,
   },
-  brand: {
-    marginTop: 0,
-    fontSize: 42,
-    fontWeight: '800',
-    color: '#1d1a3a',
-    textAlign: 'left',
-    letterSpacing: -1.6,
+  cityGlow: {
+    position: 'absolute',
+    width: 250,
+    height: 70,
+    left: 20,
+    bottom: 0,
+    backgroundColor: 'rgba(122,104,255,0.3)',
+    borderTopLeftRadius: 80,
+    borderTopRightRadius: 40,
   },
-  tagline: {
-    marginTop: 2,
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#4d4c67',
-    textAlign: 'left',
-    lineHeight: 22,
-  },
-  skyline: {
+  mapMetricRow: {
+    position: 'absolute',
+    left: 18,
+    right: 18,
+    bottom: 16,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+  },
+  metricPill: {
+    width: 110,
+    height: 14,
+    borderRadius: 999,
+    backgroundColor: 'rgba(122,104,255,0.72)',
+  },
+  metricPillShort: {
+    width: 68,
+    height: 14,
+    borderRadius: 999,
+    backgroundColor: 'rgba(80, 206, 130, 0.82)',
+  },
+  navBar: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    height: 220,
-    backgroundColor: 'transparent',
+    paddingTop: 10,
   },
-  building: {
-    backgroundColor: '#7d6ef8',
-    borderRadius: 5,
-    opacity: 0.92,
-    shadowColor: '#5f51d9',
-    shadowOpacity: 0.12,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-  },
-  splashBottomBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 14,
-    paddingHorizontal: 0,
-  },
-  splashBackCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 2,
-    borderColor: '#d5d0ff',
-    backgroundColor: 'rgba(255,255,255,0.15)',
-  },
-  splashNextButton: {
-    backgroundColor: '#6c63ff',
-    paddingHorizontal: 22,
-    paddingVertical: 11,
-    borderRadius: 16,
-    shadowColor: '#5d51ee',
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 6,
-    minWidth: 116,
-    alignItems: 'center',
-  },
-  buildingTall: {
-    width: 24,
-    height: 80,
-  },
-  buildingMid: {
-    width: 18,
-    height: 58,
-    opacity: 0.8,
-  },
-  buildingShort: {
-    width: 20,
-    height: 52,
-    opacity: 0.7,
-  },
-  buildingTall2: {
-    width: 30,
-    height: 90,
-  },
-  buildingWide: {
-    width: 46,
-    height: 70,
-    opacity: 0.85,
+  navDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: '#d9d4ff',
   },
   onboardingFrame: {
     width: width * 0.82,
