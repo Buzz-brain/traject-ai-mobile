@@ -87,13 +87,11 @@ export default function SplashScreen() {
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={styles.onboardingOneSafeArea}>
           <View style={styles.onboardingOneScreen}>
-            <View style={styles.onboardingOneScene}>
-              <Image
-                source={require('../../onboarding-img-one.png')}
-                style={styles.phoneImage}
-                contentFit="cover"
-              />
-            </View>
+            <Image
+              source={require('../../onboarding-img-one.png')}
+              style={styles.phoneImage}
+              contentFit="contain"
+            />
 
             <Text style={styles.onboardingOneTitle}>{'Real-Time\nGPS Tracking'}</Text>
             <Text style={styles.onboardingOneDescription}>{'Track your movement with\nhigh precision GPS.'}</Text>
