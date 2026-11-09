@@ -76,6 +76,72 @@ export default function SplashScreen() {
     );
   }
 
+  if (index === 0) {
+    return (
+      <LinearGradient
+        colors={['#f3f1ff', '#ece9ff', '#f8f5ff']}
+        start={{ x: 0.1, y: 0.2 }}
+        end={{ x: 0.9, y: 1 }}
+        style={styles.background}
+      >
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+        <SafeAreaView style={styles.onboardingOneSafeArea}>
+          <View style={styles.onboardingOneScreen}>
+            <View style={styles.onboardingOneBlob} />
+
+            <View style={styles.onboardingOneScene}>
+              <View style={styles.phoneWrap}>
+                <View style={styles.phoneFrame}>
+                  <Image
+                    source={require('../../onboarding-img-one.png')}
+                    style={styles.phoneImage}
+                    contentFit="cover"
+                  />
+                </View>
+              </View>
+
+              <View style={styles.satelliteWrap}>
+                <View style={styles.satelliteBody}>
+                  <View style={styles.satelliteDish} />
+                </View>
+                <View style={styles.signalRing} />
+                <View style={styles.signalRingSmall} />
+              </View>
+
+              <View style={styles.treeWrap}>
+                <View style={styles.treeTrunk} />
+                <View style={styles.treeLeaf} />
+              </View>
+            </View>
+
+            <Text style={styles.onboardingOneTitle}>{'Real-Time\nGPS Tracking'}</Text>
+            <Text style={styles.onboardingOneDescription}>{'Track your movement with\nhigh precision GPS.'}</Text>
+
+            <View style={styles.dotRow}>
+              {slides.map((_, dotIndex) => (
+                <View
+                  key={dotIndex}
+                  style={[
+                    styles.dot,
+                    dotIndex === index && styles.dotActive,
+                  ]}
+                />
+              ))}
+            </View>
+
+            <TouchableOpacity style={styles.onboardingOneNextButton} onPress={goNext} activeOpacity={0.9}>
+              <Text style={styles.onboardingOneNextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'} {'→'}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={skipToEnd}>
+              <Text style={styles.skipText}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+    );
+  }
+
   return (
     <LinearGradient
       colors={['#f2f0ff', '#e9e5ff', '#f5f3ff']}
@@ -179,6 +245,188 @@ const styles = StyleSheet.create({
   splashScreen: {
     flex: 1,
     backgroundColor: '#F1EFFD',
+  },
+  onboardingOneSafeArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  onboardingOneScreen: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 30,
+    paddingBottom: 26,
+    position: 'relative',
+  },
+  onboardingOneBlob: {
+    position: 'absolute',
+    width: 680,
+    height: 520,
+    borderRadius: 340,
+    backgroundColor: 'rgba(165,150,245,0.16)',
+    top: 90,
+    left: '50%',
+    transform: [{ translateX: -340 }],
+  },
+  onboardingOneScene: {
+    width: 390,
+    height: 500,
+    marginTop: 8,
+    position: 'relative',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  phoneWrap: {
+    position: 'relative',
+    zIndex: 2,
+    transform: [{ rotate: '6deg' }],
+  },
+  phoneFrame: {
+    width: 300,
+    height: 500,
+    borderRadius: 36,
+    backgroundColor: '#1b1a2b',
+    padding: 10,
+    shadowColor: '#3e3b70',
+    shadowOpacity: 0.28,
+    shadowRadius: 22,
+    shadowOffset: { width: 0, height: 18 },
+    elevation: 16,
+    borderWidth: 3,
+    borderColor: '#3b3567',
+  },
+  phoneImage: {
+    flex: 1,
+    borderRadius: 28,
+    overflow: 'hidden',
+    backgroundColor: '#f3f3f6',
+  },
+  satelliteWrap: {
+    position: 'absolute',
+    right: 18,
+    top: 36,
+    width: 110,
+    height: 110,
+    transform: [{ rotate: '18deg' }],
+    zIndex: 3,
+  },
+  satelliteBody: {
+    position: 'absolute',
+    width: 88,
+    height: 54,
+    borderRadius: 26,
+    backgroundColor: '#7a68ff',
+    left: 16,
+    top: 28,
+    borderWidth: 4,
+    borderColor: '#ffffff',
+    shadowColor: '#5d4ec7',
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 8 },
+  },
+  satelliteDish: {
+    position: 'absolute',
+    width: 62,
+    height: 62,
+    borderRadius: 18,
+    backgroundColor: '#ffffff',
+    borderWidth: 6,
+    borderColor: '#7a68ff',
+    left: 0,
+    top: 18,
+    transform: [{ rotate: '45deg' }],
+  },
+  signalRing: {
+    position: 'absolute',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 3,
+    borderColor: '#8b7cff',
+    left: 10,
+    top: 8,
+    opacity: 0.9,
+  },
+  signalRingSmall: {
+    position: 'absolute',
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 3,
+    borderColor: '#8b7cff',
+    left: 24,
+    top: 32,
+    opacity: 0.8,
+  },
+  treeWrap: {
+    position: 'absolute',
+    left: 8,
+    bottom: 12,
+    width: 54,
+    height: 72,
+    zIndex: 3,
+  },
+  treeTrunk: {
+    position: 'absolute',
+    width: 10,
+    height: 26,
+    backgroundColor: '#7d9f5d',
+    borderRadius: 20,
+    left: 22,
+    bottom: 0,
+  },
+  treeLeaf: {
+    position: 'absolute',
+    width: 46,
+    height: 46,
+    borderRadius: 24,
+    backgroundColor: '#8ae28a',
+    left: 4,
+    bottom: 18,
+    shadowColor: '#6fbf6a',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 6 },
+  },
+  onboardingOneTitle: {
+    fontSize: 35,
+    fontWeight: '800',
+    color: '#1f1b3b',
+    textAlign: 'center',
+    letterSpacing: -1.2,
+    lineHeight: 38,
+    marginTop: 12,
+  },
+  onboardingOneDescription: {
+    marginTop: 12,
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#4a4a64',
+    textAlign: 'center',
+    lineHeight: 26,
+  },
+  onboardingOneNextButton: {
+    marginTop: 20,
+    width: 230,
+    paddingVertical: 18,
+    borderRadius: 18,
+    backgroundColor: '#6e5afc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#5f49ee',
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+  },
+  onboardingOneNextText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#ffffff',
+    letterSpacing: -0.4,
   },
   safeArea: {
     flex: 1,
