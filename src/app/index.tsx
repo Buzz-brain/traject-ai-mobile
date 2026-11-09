@@ -890,6 +890,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   onboardingTime: {
+    fontFamily: appDisplayFont,
     fontSize: 12,
     fontWeight: '700',
     color: '#1d1b35',
@@ -1035,18 +1036,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#6d5efc',
   },
   onboardingTitle: {
+    fontFamily: appDisplayFont,
     fontSize: 29,
     fontWeight: '800',
     color: '#1e1a39',
     textAlign: 'center',
-    letterSpacing: -0.8,
+    letterSpacing: -0.9,
     marginBottom: 6,
   },
   onboardingDescription: {
+    fontFamily: appDisplayFont,
     fontSize: 14,
+    fontWeight: '500',
     color: '#4a4b61',
     textAlign: 'center',
     lineHeight: 20,
+    letterSpacing: -0.1,
     marginHorizontal: 12,
     marginBottom: 14,
   },
@@ -1078,9 +1083,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   skipText: {
+    fontFamily: appDisplayFont,
     fontSize: 14,
     fontWeight: '700',
     color: '#504d6a',
+    letterSpacing: -0.1,
   },
   nextButton: {
     backgroundColor: '#6c63ff',
@@ -1094,8 +1101,10 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   nextText: {
+    fontFamily: appDisplayFont,
     fontSize: 14,
     fontWeight: '700',
     color: '#ffffff',
+    letterSpacing: -0.1,
   },
 });
