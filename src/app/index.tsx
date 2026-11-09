@@ -62,72 +62,44 @@ export default function SplashScreen() {
   };
 
   if (phase === 'splash') {
-    const isCompact = width < 768;
-
     return (
       <LinearGradient
-        colors={['#f6f2ff', '#eef1ff', '#f7f5ff']}
-        start={{ x: 0.15, y: 0.1 }}
-        end={{ x: 0.85, y: 1 }}
+        colors={['#f4f0ff', '#ebecff', '#f7f4ff']}
+        start={{ x: 0.2, y: 0.1 }}
+        end={{ x: 0.8, y: 1 }}
         style={styles.background}
       >
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={styles.safeArea}>
-          <View style={styles.heroPage}>
-            <View style={[styles.heroGrid, isCompact && styles.heroGridCompact]}>
-              <View style={[styles.heroTextBlock, isCompact && styles.heroTextBlockCompact]}>
-                <View style={styles.brandMarkWrap}>
-                  <View style={styles.brandMark}>
-                    <View style={styles.brandOrbit} />
-                    <View style={styles.brandPin} />
-                    <View style={styles.brandPinDot} />
-                  </View>
-                </View>
-
-                <Text style={styles.brand}>TrajectAI</Text>
-                <Text style={styles.tagline}>{'Track smarter.\nPredict further.'}</Text>
-
-                <View style={styles.heroActions}>
-                  <View style={styles.splashBackCircle} />
-                  <TouchableOpacity style={styles.splashNextButton} onPress={goNext} activeOpacity={0.9}>
-                    <Text style={styles.nextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
-                  </TouchableOpacity>
+          <View style={styles.splashFrame}>
+            <View style={styles.splashCard}>
+              <View style={styles.logoWrap}>
+                <View style={styles.logoCircle}>
+                  <View style={styles.logoArc} />
+                  <View style={styles.logoPin} />
+                  <View style={styles.logoTail} />
                 </View>
               </View>
 
-              <View style={[styles.heroVisualPanel, isCompact && styles.heroVisualPanelCompact]}>
-                <View style={styles.visualCard}>
-                  <View style={styles.visualHeader}>
-                    <Text style={styles.visualTime}>9:41</Text>
-                    <View style={styles.visualStatus}>
-                      <View style={styles.signal} />
-                      <View style={styles.signal} />
-                      <View style={styles.signal} />
-                      <View style={styles.battery} />
-                    </View>
-                  </View>
+              <Text style={styles.splashTitle}>TrajectAI</Text>
 
-                  <View style={styles.mapPreview}>
-                    <View style={styles.mapGrid} />
-                    <View style={styles.routePath} />
-                    <View style={styles.routeNodeA} />
-                    <View style={styles.routeNodeB} />
-                    <View style={styles.routeBadge} />
-                    <View style={styles.cityGlow} />
-                    <View style={styles.mapMetricRow}>
-                      <View style={styles.metricPill} />
-                      <View style={styles.metricPillShort} />
-                    </View>
-                  </View>
+              <View style={styles.splashTaglineWrap}>
+                <Text style={styles.splashTagline}>Track Smarter.</Text>
+                <Text style={styles.splashTagline}>Predict Further.</Text>
+              </View>
 
-                  <View style={styles.navBar}>
-                    <View style={styles.navDot} />
-                    <View style={styles.navDot} />
-                    <View style={styles.navDot} />
-                    <View style={styles.navDot} />
-                  </View>
+              <View style={styles.skylineWrap}>
+                <View style={styles.skyline}>
+                  <View style={[styles.building, styles.buildingTall1]} />
+                  <View style={[styles.building, styles.buildingShort1]} />
+                  <View style={[styles.building, styles.buildingMid1]} />
+                  <View style={[styles.building, styles.buildingTall2]} />
+                  <View style={[styles.building, styles.buildingWide]} />
+                  <View style={[styles.building, styles.buildingShort2]} />
                 </View>
               </View>
+
+              <View style={styles.splashFooterDot} />
             </View>
           </View>
         </SafeAreaView>
@@ -239,6 +211,161 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  splashFrame: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+  },
+  splashCard: {
+    width: 360,
+    maxWidth: '90%',
+    height: 640,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 0,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 28,
+    borderWidth: 0,
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  logoWrap: {
+    marginTop: 6,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoCircle: {
+    width: 94,
+    height: 94,
+    borderRadius: 47,
+    backgroundColor: '#f6f2ff',
+    borderWidth: 3,
+    borderColor: '#d5cdfd',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  logoArc: {
+    position: 'absolute',
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    borderWidth: 5,
+    borderColor: '#7b67ff',
+    borderLeftColor: '#7b67ff',
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+    transform: [{ rotate: '32deg' }],
+  },
+  logoPin: {
+    position: 'absolute',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#7b67ff',
+    borderWidth: 3,
+    borderColor: '#ffffff',
+    top: 26,
+    left: 23,
+    zIndex: 2,
+  },
+  logoTail: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#7b67ff',
+    transform: [{ rotate: '45deg' }],
+    left: 35,
+    top: 42,
+    opacity: 0.8,
+  },
+  splashTitle: {
+    fontSize: 44,
+    fontWeight: '800',
+    color: '#1f1c3d',
+    letterSpacing: -1.8,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  splashTaglineWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 2,
+    marginBottom: 6,
+  },
+  splashTagline: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#4e4c68',
+    textAlign: 'center',
+  },
+  skylineWrap: {
+    width: '100%',
+    height: 260,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+  },
+  skyline: {
+    width: '100%',
+    height: 200,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    gap: 10,
+    paddingHorizontal: 16,
+    paddingBottom: 18,
+  },
+  building: {
+    backgroundColor: '#7b67ff',
+    borderRadius: 4,
+    opacity: 0.92,
+  },
+  buildingTall1: {
+    width: 24,
+    height: 86,
+    opacity: 0.78,
+  },
+  buildingShort1: {
+    width: 18,
+    height: 52,
+    opacity: 0.7,
+  },
+  buildingMid1: {
+    width: 28,
+    height: 68,
+    opacity: 0.84,
+  },
+  buildingTall2: {
+    width: 24,
+    height: 92,
+  },
+  buildingWide: {
+    width: 42,
+    height: 74,
+    opacity: 0.85,
+  },
+  buildingShort2: {
+    width: 20,
+    height: 58,
+    opacity: 0.8,
+  },
+  splashFooterDot: {
+    width: 18,
+    height: 18,
+    marginTop: 22,
+    borderRadius: 9,
+    backgroundColor: '#7b67ff',
+    opacity: 0.9,
   },
   heroPage: {
     flex: 1,
