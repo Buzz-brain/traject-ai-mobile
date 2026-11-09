@@ -7,12 +7,17 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
+const appDisplayFont = Platform.select({
+  web: 'Spline Sans',
+  default: 'System',
+});
 
 const slides = [
   {
@@ -355,21 +360,24 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
   },
   onboardingOneTitle: {
+    fontFamily: appDisplayFont,
     fontSize: 34,
     fontWeight: '800',
     color: '#1f1b3b',
     textAlign: 'center',
-    letterSpacing: -1.1,
+    letterSpacing: -1.4,
     lineHeight: 38,
     marginTop: 4,
   },
   onboardingOneDescription: {
     marginTop: 10,
+    fontFamily: appDisplayFont,
     fontSize: 17,
     fontWeight: '500',
     color: '#4a4a64',
     textAlign: 'center',
     lineHeight: 24,
+    letterSpacing: -0.2,
   },
   onboardingOneNextButton: {
     marginTop: 18,
@@ -386,6 +394,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   onboardingOneNextText: {
+    fontFamily: appDisplayFont,
     fontSize: 20,
     fontWeight: '700',
     color: '#ffffff',
@@ -471,6 +480,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   splashTitle: {
+    fontFamily: appDisplayFont,
     fontSize: 44,
     fontWeight: '800',
     color: '#1f1c3d',
@@ -485,11 +495,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   splashTagline: {
+    fontFamily: appDisplayFont,
     fontSize: 18,
     lineHeight: 26,
     fontWeight: '600',
     color: '#4e4c68',
     textAlign: 'center',
+    letterSpacing: -0.1,
   },
   skylineWrap: {
     width: '100%',
@@ -635,6 +647,7 @@ const styles = StyleSheet.create({
   },
   brand: {
     marginTop: 0,
+    fontFamily: appDisplayFont,
     fontSize: 56,
     fontWeight: '800',
     color: '#18173a',
@@ -643,11 +656,13 @@ const styles = StyleSheet.create({
   },
   tagline: {
     marginTop: 8,
+    fontFamily: appDisplayFont,
     fontSize: 21,
     fontWeight: '600',
     color: '#474763',
     textAlign: 'left',
     lineHeight: 28,
+    letterSpacing: -0.3,
   },
   heroActions: {
     flexDirection: 'row',
