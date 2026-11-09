@@ -176,6 +176,51 @@ export default function SplashScreen() {
     );
   }
 
+  if (index === 2) {
+    return (
+      <LinearGradient
+        colors={['#f3f1ff', '#ece9ff', '#f8f5ff']}
+        start={{ x: 0.1, y: 0.2 }}
+        end={{ x: 0.9, y: 1 }}
+        style={styles.background}
+      >
+        <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
+        <SafeAreaView style={styles.onboardingThreeSafeArea}>
+          <View style={styles.onboardingThreeScreen}>
+            <Image
+              source={require('../../onboarding-img-three.png')}
+              style={styles.onboardingThreeImage}
+              contentFit="contain"
+            />
+
+            <Text style={styles.onboardingThreeTitle}>{'Hybrid Tracking'}</Text>
+            <Text style={styles.onboardingThreeDescription}>{'Seamless switch between\nGPS and AI prediction.'}</Text>
+
+            <View style={styles.dotRow}>
+              {slides.map((_, dotIndex) => (
+                <View
+                  key={dotIndex}
+                  style={[
+                    styles.dot,
+                    dotIndex === index && styles.dotActive,
+                  ]}
+                />
+              ))}
+            </View>
+
+            <TouchableOpacity style={styles.onboardingThreeNextButton} onPress={goNext} activeOpacity={0.9}>
+              <Text style={styles.onboardingThreeNextText}>{'Get Started →'}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
+              <Text style={styles.skipText}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+    );
+  }
+
   return (
     <LinearGradient
       colors={['#f2f0ff', '#e9e5ff', '#f5f3ff']}
@@ -353,6 +398,65 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   onboardingTwoNextText: {
+    fontFamily: appDisplayFont,
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#ffffff',
+    letterSpacing: -0.2,
+  },
+  onboardingThreeSafeArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  onboardingThreeScreen: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 30,
+    paddingBottom: 26,
+  },
+  onboardingThreeImage: {
+    width: Math.min(width * 0.85, 430),
+    height: Math.min(width * 0.58, 320),
+    marginBottom: 6,
+  },
+  onboardingThreeTitle: {
+    fontFamily: appDisplayFont,
+    fontSize: 34,
+    fontWeight: '800',
+    color: '#1f1b3b',
+    textAlign: 'center',
+    letterSpacing: -1.2,
+    lineHeight: 40,
+    marginBottom: 8,
+  },
+  onboardingThreeDescription: {
+    fontFamily: appDisplayFont,
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#4a4a64',
+    textAlign: 'center',
+    lineHeight: 24,
+    letterSpacing: -0.15,
+    marginBottom: 18,
+  },
+  onboardingThreeNextButton: {
+    marginTop: 8,
+    width: 220,
+    paddingVertical: 16,
+    borderRadius: 18,
+    backgroundColor: '#6e5afc',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#5f49ee',
+    shadowOpacity: 0.25,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+  },
+  onboardingThreeNextText: {
     fontFamily: appDisplayFont,
     fontSize: 20,
     fontWeight: '700',
