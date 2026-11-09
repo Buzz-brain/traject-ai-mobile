@@ -62,6 +62,8 @@ export default function SplashScreen() {
   };
 
   if (phase === 'splash') {
+    const isCompact = width < 768;
+
     return (
       <LinearGradient
         colors={['#f4f1ff', '#ededff', '#f5f3ff']}
@@ -71,51 +73,50 @@ export default function SplashScreen() {
       >
         <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
         <SafeAreaView style={styles.safeArea}>
-          <View style={styles.deviceFrame}>
+          <View style={styles.heroShell}>
             <LinearGradient
-              colors={['rgba(255,255,255,0.74)', 'rgba(255,255,255,0.34)']}
-              style={styles.glassShell}
+              colors={['rgba(255,255,255,0.68)', 'rgba(255,255,255,0.26)']}
+              style={[
+                styles.heroGlass,
+                isCompact ? styles.heroGlassCompact : null,
+              ]}
             >
-              <View style={styles.statusBar}>
-                <Text style={styles.time}>9:41</Text>
-                <View style={styles.statusIcons}>
-                  <View style={styles.signalDot} />
-                  <View style={styles.signalDot} />
-                  <View style={styles.signalDot} />
-                  <View style={styles.battery} />
-                </View>
-              </View>
+              <View style={[styles.heroContent, isCompact ? styles.heroContentCompact : null]}>
+                <View style={[styles.heroTextBlock, isCompact ? styles.heroTextBlockCompact : null]}>
+                  <View style={styles.splashBrandBlock}>
+                    <View style={styles.splashLogoWrap}>
+                      <View style={styles.splashLogoCircle}>
+                        <View style={styles.splashLogoArc} />
+                        <View style={styles.splashPinHead} />
+                        <View style={styles.splashPinTail} />
+                      </View>
+                    </View>
 
-              <View style={styles.splashBrandBlock}>
-                <View style={styles.splashLogoWrap}>
-                  <View style={styles.splashLogoCircle}>
-                    <View style={styles.splashLogoArc} />
-                    <View style={styles.splashPinHead} />
-                    <View style={styles.splashPinTail} />
+                    <View style={styles.splashTextWrap}>
+                      <Text style={styles.brand}>TrajectAI</Text>
+                      <Text style={styles.tagline}>{'Track Smarter.\nPredict Further.'}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.splashBottomBar}>
+                    <View style={styles.splashBackCircle} />
+                    <TouchableOpacity style={styles.splashNextButton} onPress={goNext} activeOpacity={0.9}>
+                      <Text style={styles.nextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
 
-                <View style={styles.splashTextWrap}>
-                  <Text style={styles.brand}>TrajectAI</Text>
-                  <Text style={styles.tagline}>{'Track Smarter.\nPredict Further.'}</Text>
+                <View style={[styles.heroVisual, isCompact ? styles.heroVisualCompact : null]}>
+                  <View style={styles.cityScene}>
+                    <View style={styles.skyline}>
+                      <View style={[styles.building, styles.buildingTall]} />
+                      <View style={[styles.building, styles.buildingMid]} />
+                      <View style={[styles.building, styles.buildingShort]} />
+                      <View style={[styles.building, styles.buildingTall2]} />
+                      <View style={[styles.building, styles.buildingWide]} />
+                    </View>
+                  </View>
                 </View>
-              </View>
-
-              <View style={styles.cityScene}>
-                <View style={styles.skyline}>
-                  <View style={[styles.building, styles.buildingTall]} />
-                  <View style={[styles.building, styles.buildingMid]} />
-                  <View style={[styles.building, styles.buildingShort]} />
-                  <View style={[styles.building, styles.buildingTall2]} />
-                  <View style={[styles.building, styles.buildingWide]} />
-                </View>
-              </View>
-
-              <View style={styles.splashBottomBar}>
-                <View style={styles.splashBackCircle} />
-                <TouchableOpacity style={styles.splashNextButton} onPress={goNext} activeOpacity={0.9}>
-                  <Text style={styles.nextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
-                </TouchableOpacity>
               </View>
             </LinearGradient>
           </View>
@@ -229,28 +230,173 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  deviceFrame: {
-    width: width * 0.78,
-    maxWidth: 350,
-    aspectRatio: 0.56,
-    borderRadius: 30,
-    padding: 13,
-    backgroundColor: 'rgba(255,255,255,0.22)',
+  heroShell: {
+    width: '100%',
+    maxWidth: 1280,
+    height: '100%',
+    paddingHorizontal: 28,
+    paddingVertical: 20,
+  },
+  heroGlass: {
+    flex: 1,
+    borderRadius: 34,
+    overflow: 'hidden',
+    padding: 24,
+    backgroundColor: 'rgba(255,255,255,0.42)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.38)',
     shadowColor: '#4c3d9f',
     shadowOpacity: 0.12,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)',
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 10,
   },
-  glassShell: {
+  heroGlassCompact: {
+    padding: 18,
+    borderRadius: 26,
+  },
+  heroContent: {
     flex: 1,
-    borderRadius: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  heroContentCompact: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  heroTextBlock: {
+    flex: 1,
+    maxWidth: 480,
+    paddingRight: 20,
+  },
+  heroTextBlockCompact: {
+    maxWidth: '100%',
+    paddingRight: 0,
+    alignItems: 'center',
+  },
+  splashBrandBlock: {
+    marginTop: 0,
+    marginBottom: 28,
+    alignItems: 'flex-start',
+  },
+  splashLogoWrap: {
+    alignItems: 'flex-start',
+    marginBottom: 16,
+  },
+  splashLogoCircle: {
+    width: 94,
+    height: 94,
+    borderRadius: 50,
+    backgroundColor: '#f6f2ff',
+    borderWidth: 2,
+    borderColor: '#cfc7ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  splashLogoArc: {
+    position: 'absolute',
+    width: 66,
+    height: 66,
+    borderRadius: 42,
+    borderWidth: 5,
+    borderColor: '#7b66ff',
+    transform: [{ rotate: '30deg' }],
+    opacity: 0.8,
+  },
+  splashPinHead: {
+    position: 'absolute',
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#7b66ff',
+    borderWidth: 3,
+    borderColor: '#ffffff',
+    left: 20,
+    top: 24,
+    zIndex: 2,
+  },
+  splashPinTail: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    borderRadius: 8,
+    backgroundColor: '#7b66ff',
+    transform: [{ rotate: '45deg' }],
+    left: 35,
+    top: 44,
+    opacity: 0.7,
+  },
+  splashTextWrap: {
+    alignItems: 'flex-start',
+  },
+  brand: {
+    marginTop: 0,
+    fontSize: 52,
+    fontWeight: '800',
+    color: '#1d1a3a',
+    textAlign: 'left',
+    letterSpacing: -1.8,
+  },
+  tagline: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#4d4c67',
+    textAlign: 'left',
+    lineHeight: 24,
+  },
+  splashBottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 12,
+    width: '100%',
+  },
+  splashBackCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    borderWidth: 2,
+    borderColor: '#d5d0ff',
+    backgroundColor: 'rgba(255,255,255,0.12)',
+  },
+  splashNextButton: {
+    backgroundColor: '#6c63ff',
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 18,
+    shadowColor: '#5d51ee',
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
+    minWidth: 132,
+    alignItems: 'center',
+  },
+  heroVisual: {
+    flex: 1,
+    height: '100%',
+    minHeight: 380,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heroVisualCompact: {
+    width: '100%',
+    minHeight: 260,
+    marginTop: 20,
+  },
+  cityScene: {
+    width: '100%',
+    maxWidth: 520,
+    height: 220,
+    justifyContent: 'flex-end',
     overflow: 'hidden',
-    paddingHorizontal: 18,
-    paddingTop: 12,
-    backgroundColor: 'rgba(255,255,255,0.42)',
+    borderRadius: 28,
+    backgroundColor: 'rgba(124,94,255,0.06)',
+    borderWidth: 1,
+    borderColor: 'rgba(124,94,255,0.08)',
   },
   statusBar: {
     flexDirection: 'row',
@@ -364,23 +510,12 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     lineHeight: 22,
   },
-  cityScene: {
-    marginTop: 18,
-    height: 132,
-    justifyContent: 'flex-end',
-    overflow: 'hidden',
-    borderBottomLeftRadius: 22,
-    borderBottomRightRadius: 22,
-    backgroundColor: 'rgba(124,94,255,0.06)',
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
-  },
   skyline: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    paddingHorizontal: 12,
-    height: 132,
+    paddingHorizontal: 20,
+    height: 220,
     backgroundColor: 'transparent',
   },
   building: {
