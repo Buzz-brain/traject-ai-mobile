@@ -227,6 +227,24 @@ export default function HomeScreen() {
       lineHeight: 20,
       marginBottom: 18,
     },
+    searchBar: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 8,
+      paddingHorizontal: 12,
+      paddingVertical: 10,
+      borderRadius: 14,
+      backgroundColor: isDark ? '#1a2331' : '#f3f1ff',
+      borderWidth: 1,
+      borderColor: isDark ? '#273244' : '#e6e2ff',
+      marginBottom: 16,
+    },
+    searchText: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: isDark ? '#aebad0' : '#6b7280',
+      letterSpacing: 0.2,
+    },
     statRow: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -298,6 +316,7 @@ export default function HomeScreen() {
       color: isDark ? '#edf2ff' : '#191730',
       marginBottom: 12,
       marginHorizontal: 18,
+      letterSpacing: -0.4,
     },
   });
 
@@ -352,10 +371,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <ScreenHeader 
-        title="TrajectAI"
+        title="Sessions"
         subtitle={`${sessionsList.length} saved sessions`}
       />
-      <View style={styles.heroCard}>
+      <View style={[styles.heroCard, { paddingBottom: 18 }]}>
         <View style={styles.heroTopRow}>
           <View style={styles.miniBadge}>
             <Text style={styles.miniBadgeText}>Hybrid</Text>
@@ -364,6 +383,10 @@ export default function HomeScreen() {
         </View>
         <Text style={styles.heroTitle}>Your routes</Text>
         <Text style={styles.heroSub}>Track every trip, compare GPS and AI predictions, and export clean session data.</Text>
+        <View style={styles.searchBar}>
+          <Ionicons name="search" size={14} color={isDark ? '#aebad0' : '#6b7280'} />
+          <Text style={styles.searchText}>Search sessions...</Text>
+        </View>
         <View style={styles.statRow}>
           <View style={styles.statTile}>
             <Text style={styles.statLabel}>Sessions</Text>

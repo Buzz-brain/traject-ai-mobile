@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 0,
     height: 128,
-    background: 'transparent',
+    backgroundColor: 'transparent',
   },
   building: {
     backgroundColor: '#7d6ef8',
