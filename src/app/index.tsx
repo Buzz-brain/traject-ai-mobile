@@ -86,16 +86,20 @@ export default function SplashScreen() {
                 </View>
               </View>
 
-              <View style={styles.logoWrap}>
-                <View style={styles.logoCircle}>
-                  <View style={styles.logoOrbit} />
-                  <View style={styles.logoPin} />
-                  <View style={styles.logoPinTail} />
+              <View style={styles.splashBrandBlock}>
+                <View style={styles.splashLogoWrap}>
+                  <View style={styles.splashLogoCircle}>
+                    <View style={styles.splashLogoArc} />
+                    <View style={styles.splashPinHead} />
+                    <View style={styles.splashPinTail} />
+                  </View>
+                </View>
+
+                <View style={styles.splashTextWrap}>
+                  <Text style={styles.brand}>TrajectAI</Text>
+                  <Text style={styles.tagline}>{'Track Smarter.\nPredict Further.'}</Text>
                 </View>
               </View>
-
-              <Text style={styles.brand}>TrajectAI</Text>
-              <Text style={styles.tagline}>{'Track Smarter.\nPredict Further.'}</Text>
 
               <View style={styles.cityScene}>
                 <View style={styles.skyline}>
@@ -107,10 +111,11 @@ export default function SplashScreen() {
                 </View>
               </View>
 
-              <View style={styles.dotRow}>
-                <View style={styles.dot} />
-                <View style={[styles.dot, styles.dotActive]} />
-                <View style={styles.dot} />
+              <View style={styles.splashBottomBar}>
+                <View style={styles.splashBackCircle} />
+                <TouchableOpacity style={styles.splashNextButton} onPress={goNext} activeOpacity={0.9}>
+                  <Text style={styles.nextText}>{index === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
+                </TouchableOpacity>
               </View>
             </LinearGradient>
           </View>
