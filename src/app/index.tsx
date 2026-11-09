@@ -207,7 +207,7 @@ export default function SplashScreen() {
             </View>
 
             <View style={styles.onboardingFooter}>
-              <TouchableOpacity onPress={skipToEnd}>
+              <TouchableOpacity style={styles.skipButton} onPress={skipToEnd}>
                 <Text style={styles.skipText}>Skip</Text>
               </TouchableOpacity>
 
