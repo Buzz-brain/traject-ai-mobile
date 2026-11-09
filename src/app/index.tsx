@@ -15,20 +15,20 @@ const { width } = Dimensions.get('window');
 
 const slides = [
   {
-    title: 'Track every route',
-    description: 'See live movement, distance, and accuracy in one premium view.',
+    title: 'Real-Time GPS Tracking',
+    description: 'Track your movement with high precision GPS.',
     accent: '#7c6cff',
     illustration: 'route',
   },
   {
-    title: 'Predict with AI',
-    description: 'Fallback predictions stay accurate when GPS signal drops.',
+    title: 'AI-Powered Prediction',
+    description: 'Keep moving even when GPS is weak or unavailable.',
     accent: '#8b5cf6',
     illustration: 'predict',
   },
   {
-    title: 'Review every trip',
-    description: 'Export clean analytics, compare performance, and improve future routes.',
+    title: 'Hybrid Tracking',
+    description: 'Seamless switch between GPS and AI prediction.',
     accent: '#5b50d4',
     illustration: 'stats',
   },
@@ -64,7 +64,7 @@ export default function SplashScreen() {
   if (phase === 'splash') {
     return (
       <LinearGradient
-        colors={['#f2f0ff', '#e8e4ff', '#f0ebff']}
+        colors={['#f4f1ff', '#ededff', '#f5f3ff']}
         start={{ x: 0.15, y: 0.1 }}
         end={{ x: 0.9, y: 1 }}
         style={styles.background}
@@ -73,7 +73,7 @@ export default function SplashScreen() {
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.deviceFrame}>
             <LinearGradient
-              colors={['rgba(255,255,255,0.74)', 'rgba(255,255,255,0.42)']}
+              colors={['rgba(255,255,255,0.74)', 'rgba(255,255,255,0.34)']}
               style={styles.glassShell}
             >
               <View style={styles.statusBar}>
@@ -88,9 +88,9 @@ export default function SplashScreen() {
 
               <View style={styles.logoWrap}>
                 <View style={styles.logoCircle}>
-                  <View style={styles.logoInnerGlow} />
-                  <View style={styles.pinHead} />
-                  <View style={styles.pinTail} />
+                  <View style={styles.logoOrbit} />
+                  <View style={styles.logoPin} />
+                  <View style={styles.logoPinTail} />
                 </View>
               </View>
 
@@ -130,7 +130,7 @@ export default function SplashScreen() {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.onboardingFrame}>
           <LinearGradient
-            colors={['rgba(255,255,255,0.73)', 'rgba(255,255,255,0.38)']}
+            colors={['rgba(255,255,255,0.72)', 'rgba(255,255,255,0.38)']}
             style={styles.onboardingShell}
           >
             <View style={styles.onboardingHeader}>
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   deviceFrame: {
-    width: width * 0.8,
+    width: width * 0.82,
     maxWidth: 360,
     aspectRatio: 0.54,
     borderRadius: 28,
@@ -285,48 +285,48 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   logoCircle: {
-    width: 86,
-    height: 86,
-    borderRadius: 43,
+    width: 102,
+    height: 102,
+    borderRadius: 52,
     backgroundColor: '#f5f2ff',
     borderWidth: 2,
-    borderColor: '#c9c3ff',
+    borderColor: '#d1c9ff',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
   },
-  logoInnerGlow: {
+  logoOrbit: {
     position: 'absolute',
-    width: 62,
-    height: 62,
-    borderRadius: 31,
-    backgroundColor: '#dfe6ff',
+    width: 78,
+    height: 78,
+    borderRadius: 39,
+    borderWidth: 2,
+    borderColor: '#d7d2ff',
     opacity: 0.8,
   },
-  pinHead: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    backgroundColor: '#7b67ff',
+  logoPin: {
+    width: 30,
+    height: 30,
+    borderRadius: 16,
+    backgroundColor: '#7d66ff',
     borderWidth: 3,
     borderColor: '#ffffff',
-    zIndex: 2,
-    transform: [{ rotate: '-10deg' }],
-  },
-  pinTail: {
     position: 'absolute',
-    width: 18,
-    height: 18,
-    borderRadius: 12,
-    backgroundColor: '#7b67ff',
+    zIndex: 2,
+  },
+  logoPinTail: {
+    position: 'absolute',
+    width: 14,
+    height: 14,
+    borderRadius: 8,
+    backgroundColor: '#7d66ff',
     transform: [{ rotate: '45deg' }],
-    bottom: 16,
-    left: 34,
-    zIndex: 1,
+    left: 39,
+    bottom: 25,
     opacity: 0.65,
   },
   brand: {
-    marginTop: 24,
+    marginTop: 22,
     fontSize: 34,
     fontWeight: '800',
     color: '#1d1a3a',
@@ -342,12 +342,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   cityScene: {
-    marginTop: 26,
-    height: 128,
+    marginTop: 24,
+    height: 132,
     justifyContent: 'flex-end',
     overflow: 'hidden',
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
     backgroundColor: 'rgba(124,94,255,0.06)',
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
@@ -356,16 +356,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    paddingBottom: 0,
-    height: 128,
+    paddingHorizontal: 12,
+    height: 132,
     backgroundColor: 'transparent',
   },
   building: {
     backgroundColor: '#7d6ef8',
     borderRadius: 5,
     opacity: 0.92,
-    marginRight: 3,
     shadowColor: '#5f51d9',
     shadowOpacity: 0.12,
     shadowRadius: 10,
@@ -373,25 +371,25 @@ const styles = StyleSheet.create({
   },
   buildingTall: {
     width: 24,
-    height: 72,
+    height: 80,
   },
   buildingMid: {
     width: 18,
-    height: 56,
+    height: 58,
     opacity: 0.8,
   },
   buildingShort: {
     width: 20,
-    height: 48,
+    height: 52,
     opacity: 0.7,
   },
   buildingTall2: {
-    width: 26,
-    height: 84,
+    width: 30,
+    height: 90,
   },
   buildingWide: {
-    width: 42,
-    height: 66,
+    width: 46,
+    height: 70,
     opacity: 0.85,
   },
   onboardingFrame: {
