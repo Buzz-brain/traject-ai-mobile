@@ -54,8 +54,7 @@ export default function SplashScreen() {
             </View>
 
             <Text style={styles.brand}>TrajectAI</Text>
-            <Text style={styles.tagline}>Track Smarter.{'
-'}Predict Further.</Text>
+            <Text style={styles.tagline}>Track Smarter.{'\n'}Predict Further.</Text>
 
             <View style={styles.cityScene}>
               <View style={styles.skyline}>
